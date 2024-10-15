@@ -325,10 +325,10 @@ public class SimpleScheduleBuilder extends ScheduleBuilder<SimpleTrigger> {
     }
     
     /**
-     * Specify a the number of time the trigger will repeat - total number of 
+     * Specify the number of times the trigger will repeat - the total number of
      * firings will be this number + 1. 
      * 
-     * @param triggerRepeatCount the number of seconds at which the trigger should repeat.
+     * @param triggerRepeatCount the number of times the trigger should repeat after the initial firing.
      * @return the updated SimpleScheduleBuilder
      * @see SimpleTrigger#getRepeatCount()
      * @see #repeatForever()

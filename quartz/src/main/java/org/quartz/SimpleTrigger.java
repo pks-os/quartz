@@ -138,18 +138,19 @@ public interface SimpleTrigger extends Trigger {
     public static final int REPEAT_INDEFINITELY = -1;
 
     /**
-     * <p>
-     * Get the the number of times the <code>SimpleTrigger</code> should
-     * repeat, after which it will be automatically deleted.
-     * </p>
-     * 
+     * Get the number of times the <code>SimpleTrigger</code> should
+     * repeat, after the initial firing, after which it will be automatically deleted.
+     *
+     * The total number of firings will be this number + 1.
+     *
+     * @return the number of times the trigger should repeat after the initial firing.
      * @see #REPEAT_INDEFINITELY
      */
     public int getRepeatCount();
 
     /**
      * <p>
-     * Get the the time interval (in milliseconds) at which the <code>SimpleTrigger</code> should repeat.
+     * Get the time interval (in milliseconds) at which the <code>SimpleTrigger</code> should repeat.
      * </p>
      */
     public long getRepeatInterval();

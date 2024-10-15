@@ -111,6 +111,35 @@ public class CronExpressionTest extends SerializationTestSupport {
         cal.set(2010, Calendar.OCTOBER, 29, 10, 15, 0); // nearest weekday to last day - 1 (29th is a friday in 2010)
         assertTrue(cronExpression.isSatisfiedBy(cal.getTime()));
         
+        cronExpression = new CronExpression("0 15 10 1,L * ? 2010");
+        
+        cal.set(2010, Calendar.OCTOBER, 1, 10, 15, 0);
+        assertTrue(cronExpression.isSatisfiedBy(cal.getTime()));
+        
+        cal.set(2010, Calendar.OCTOBER, 31, 10, 15, 0);
+        assertTrue(cronExpression.isSatisfiedBy(cal.getTime()));
+        
+        cal.set(2010, Calendar.OCTOBER, 30, 10, 15, 0);
+        assertFalse(cronExpression.isSatisfiedBy(cal.getTime()));
+        
+        cronExpression = new CronExpression("0 15 10 L-1W,L-1 * ? 2010");
+        
+        cal.set(2010, Calendar.OCTOBER, 29, 10, 15, 0); // nearest weekday to last day - 1 (29th is a friday in 2010)
+        assertTrue(cronExpression.isSatisfiedBy(cal.getTime()));
+        
+        cal.set(2010, Calendar.OCTOBER, 30, 10, 15, 0); // last day - 1
+        
+        cronExpression = new CronExpression("0 15 10 2W,16 * ? 2010");
+        
+        cal.set(2010, Calendar.OCTOBER, 1, 10, 15, 0); // nearest weekday to the 2nd of the month (1st is a friday in 2010)
+        assertTrue(cronExpression.isSatisfiedBy(cal.getTime()));
+        
+        cal.set(2010, Calendar.OCTOBER, 2, 10, 15, 0);
+        assertFalse(cronExpression.isSatisfiedBy(cal.getTime()));
+        
+        cal.set(2010, Calendar.OCTOBER, 16, 10, 15, 0);
+        assertTrue(cronExpression.isSatisfiedBy(cal.getTime()));
+        
     }
 
     /*
@@ -141,12 +170,12 @@ public class CronExpressionTest extends SerializationTestSupport {
  		Trigger trigger = TriggerBuilder.newTrigger().withIdentity("test").withSchedule(schedBuilder).build();
  				
  		int i = 0;
- 		Date pdate = trigger.getFireTimeAfter(new Date());
+ 		Date previousDate = trigger.getFireTimeAfter(new Date());
  		while (++i < 26) {
- 			Date date = trigger.getFireTimeAfter(pdate);
- 			System.out.println("fireTime: " + date + ", previousFireTime: " + pdate);
- 			assertFalse("Next fire time is the same as previous fire time!", pdate.equals(date));
- 			pdate = date;
+ 			Date date = trigger.getFireTimeAfter(previousDate);
+ 			System.out.println("fireTime: " + date + ", previousFireTime: " + previousDate);
+ 			assertFalse("Next fire time is the same as previous fire time!", previousDate.equals(date));
+ 			previousDate = date;
  		}
  	}
     
@@ -174,7 +203,7 @@ public class CronExpressionTest extends SerializationTestSupport {
     public void testQuartz574() {
         try {
             new CronExpression("* * * * Foo ? ");
-            fail("Expected ParseException did not fire for non-existent month");
+            fail("Expected ParseException did not fire for nonexistent month");
         } catch(ParseException pe) {
             assertTrue("Incorrect ParseException thrown", 
                 pe.getMessage().startsWith("Invalid Month value:"));
@@ -182,7 +211,7 @@ public class CronExpressionTest extends SerializationTestSupport {
 
         try {
             new CronExpression("* * * * Jan-Foo ? ");
-            fail("Expected ParseException did not fire for non-existent month");
+            fail("Expected ParseException did not fire for nonexistent month");
         } catch(ParseException pe) {
             assertTrue("Incorrect ParseException thrown", 
                 pe.getMessage().startsWith("Invalid Month value:"));
@@ -214,13 +243,6 @@ public class CronExpressionTest extends SerializationTestSupport {
     }
 
     public void testQuartz640() throws ParseException {
-        try {
-            new CronExpression("0 43 9 1,5,29,L * ?");
-            fail("Expected ParseException did not fire for L combined with other days of the month");
-        } catch(ParseException pe) {
-            assertTrue("Incorrect ParseException thrown", 
-                pe.getMessage().startsWith("Support for specifying 'L' and 'LW' with other days of the month is not implemented"));
-        }
         try {
             new CronExpression("0 43 9 ? * SAT,SUN,L");
             fail("Expected ParseException did not fire for L combined with other days of the week");
