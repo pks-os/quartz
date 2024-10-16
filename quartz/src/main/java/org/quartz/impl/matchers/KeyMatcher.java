@@ -29,7 +29,7 @@ public class KeyMatcher<T extends Key<?>> implements Matcher<T> {
   
     private static final long serialVersionUID = 1230009869074992437L;
 
-    protected T compareTo;
+    protected final T compareTo;
     
     protected KeyMatcher(T compareTo) {
         this.compareTo = compareTo;
@@ -39,7 +39,7 @@ public class KeyMatcher<T extends Key<?>> implements Matcher<T> {
      * Create a KeyMatcher that matches Keys that equal the given key. 
      */
     public static <U extends Key<?>> KeyMatcher<U> keyEquals(U compareTo) {
-        return new KeyMatcher<U>(compareTo);
+        return new KeyMatcher<>(compareTo);
     }
 
     public boolean isMatch(T key) {
@@ -70,11 +70,8 @@ public class KeyMatcher<T extends Key<?>> implements Matcher<T> {
             return false;
         KeyMatcher<?> other = (KeyMatcher<?>) obj;
         if (compareTo == null) {
-            if (other.compareTo != null)
-                return false;
-        } else if (!compareTo.equals(other.compareTo))
-            return false;
-        return true;
+            return other.compareTo == null;
+        } else return compareTo.equals(other.compareTo);
     }
     
 }

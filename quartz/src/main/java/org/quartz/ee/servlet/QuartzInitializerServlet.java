@@ -172,11 +172,11 @@ public class QuartzInitializerServlet extends HttpServlet {
             String shutdownPref = cfg.getInitParameter("shutdown-on-unload");
 
             if (shutdownPref != null) {
-                performShutdown = Boolean.valueOf(shutdownPref).booleanValue();
+                performShutdown = Boolean.valueOf(shutdownPref);
             }
             String shutdownWaitPref = cfg.getInitParameter("wait-on-shutdown");
             if (shutdownPref != null) {
-                waitOnShutdown  = Boolean.valueOf(shutdownWaitPref).booleanValue();
+                waitOnShutdown  = Boolean.valueOf(shutdownWaitPref);
             }
 
             factory = getSchedulerFactory(configFile);
@@ -192,7 +192,7 @@ public class QuartzInitializerServlet extends HttpServlet {
             int startDelay = 0;
             String startDelayS = cfg.getInitParameter("start-delay-seconds");
             try {
-                if(startDelayS != null && startDelayS.trim().length() > 0)
+                if(startDelayS != null && !startDelayS.trim().isEmpty())
                     startDelay = Integer.parseInt(startDelayS);
             } catch(Exception e) {
                 log("Cannot parse value of 'start-delay-seconds' to an integer: " + startDelayS + ", defaulting to 5 seconds.", e);
@@ -204,7 +204,7 @@ public class QuartzInitializerServlet extends HttpServlet {
              * the scheduler will be started. This is to maintain backwards
              * compatability.
              */
-            if (startOnLoad == null || (Boolean.valueOf(startOnLoad).booleanValue())) {
+            if (startOnLoad == null || (Boolean.valueOf(startOnLoad))) {
                 if(startDelay <= 0) {
                     // Start now
                     scheduler.start();
@@ -237,7 +237,7 @@ public class QuartzInitializerServlet extends HttpServlet {
             }
 
         } catch (Exception e) {
-            log("Quartz Scheduler failed to initialize: " + e.toString());
+            log("Quartz Scheduler failed to initialize: " + e);
             throw new ServletException(e);
         }
     }
@@ -266,7 +266,7 @@ public class QuartzInitializerServlet extends HttpServlet {
                 scheduler.shutdown(waitOnShutdown);
             }
         } catch (Exception e) {
-            log("Quartz Scheduler failed to shutdown cleanly: " + e.toString());
+            log("Quartz Scheduler failed to shutdown cleanly: " + e);
             e.printStackTrace();
         }
 

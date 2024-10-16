@@ -44,7 +44,7 @@ public class OrMatcher<T extends Key<?>> implements Matcher<T> {
      * Create an OrMatcher that depends upon the result of at least one of the given matchers.
      */
     public static <U extends Key<?>> OrMatcher<U> or(Matcher<U> leftOperand, Matcher<U> rightOperand) {
-        return new OrMatcher<U>(leftOperand, rightOperand);
+        return new OrMatcher<>(leftOperand, rightOperand);
     }
 
     public boolean isMatch(T key) {
@@ -86,11 +86,8 @@ public class OrMatcher<T extends Key<?>> implements Matcher<T> {
         } else if (!leftOperand.equals(other.leftOperand))
             return false;
         if (rightOperand == null) {
-            if (other.rightOperand != null)
-                return false;
-        } else if (!rightOperand.equals(other.rightOperand))
-            return false;
-        return true;
+            return other.rightOperand == null;
+        } else return rightOperand.equals(other.rightOperand);
     }
 
 }

@@ -199,11 +199,11 @@ instead:
     }
 
     public void setMyFloatValue(float myFloatValue) {
-      myFloatValue = myFloatValue;
+      this.myFloatValue = myFloatValue;
     }
 
     public void setState(ArrayList state) {
-      state = state;
+      this.state = state;
     }
 
   }

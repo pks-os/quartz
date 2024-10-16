@@ -156,11 +156,11 @@ public class QuartzInitializerListener implements ServletContextListener {
             if(shutdownPref == null)
                 shutdownPref = servletContext.getInitParameter("shutdown-on-unload");
             if (shutdownPref != null) {
-                performShutdown = Boolean.valueOf(shutdownPref).booleanValue();
+                performShutdown = Boolean.valueOf(shutdownPref);
             }
             String shutdownWaitPref = servletContext.getInitParameter("quartz:wait-on-shutdown");
             if (shutdownWaitPref != null) {
-                waitOnShutdown = Boolean.valueOf(shutdownWaitPref).booleanValue();
+                waitOnShutdown = Boolean.valueOf(shutdownWaitPref);
             }
 
             factory = getSchedulerFactory(configFile);
@@ -179,10 +179,10 @@ public class QuartzInitializerListener implements ServletContextListener {
             if(startDelayS == null)
                 startDelayS = servletContext.getInitParameter("start-delay-seconds");
             try {
-                if(startDelayS != null && startDelayS.trim().length() > 0)
+                if(startDelayS != null && !startDelayS.trim().isEmpty())
                     startDelay = Integer.parseInt(startDelayS);
             } catch(Exception e) {
-                log.error("Cannot parse value of 'start-delay-seconds' to an integer: " + startDelayS + ", defaulting to 5 seconds.");
+                log.error("Cannot parse value of 'start-delay-seconds' to an integer: {}, defaulting to 5 seconds.", startDelayS);
                 startDelay = 5;
             }
 
@@ -191,7 +191,7 @@ public class QuartzInitializerListener implements ServletContextListener {
              * the scheduler will be started. This is to maintain backwards
              * compatability.
              */
-            if (startOnLoad == null || (Boolean.valueOf(startOnLoad).booleanValue())) {
+            if (startOnLoad == null || (Boolean.valueOf(startOnLoad))) {
                 if(startDelay <= 0) {
                     // Start now
                     scheduler.start();
@@ -200,7 +200,7 @@ public class QuartzInitializerListener implements ServletContextListener {
                 else {
                     // Start delayed
                     scheduler.startDelayed(startDelay);
-                    log.info("Scheduler will start in " + startDelay + " seconds.");
+                    log.info("Scheduler will start in {} seconds.", startDelay);
                 }
             } else {
                 log.info("Scheduler has not been started. Use scheduler.start()");
@@ -213,8 +213,7 @@ public class QuartzInitializerListener implements ServletContextListener {
                 factoryKey = QUARTZ_FACTORY_KEY;
             }
 
-            log.info("Storing the Quartz Scheduler Factory in the servlet context at key: "
-                    + factoryKey);
+            log.info("Storing the Quartz Scheduler Factory in the servlet context at key: {}", factoryKey);
             servletContext.setAttribute(factoryKey, factory);
             
             
@@ -222,13 +221,12 @@ public class QuartzInitializerListener implements ServletContextListener {
             if(servletCtxKey == null)
                 servletCtxKey = servletContext.getInitParameter("scheduler-context-servlet-context-key");
             if (servletCtxKey != null) {
-                log.info("Storing the ServletContext in the scheduler context at key: "
-                        + servletCtxKey);
+                log.info("Storing the ServletContext in the scheduler context at key: {}", servletCtxKey);
                 scheduler.getContext().put(servletCtxKey, servletContext);
             }
 
         } catch (Exception e) {
-            log.error("Quartz Scheduler failed to initialize: " + e.toString());
+            log.error("Quartz Scheduler failed to initialize: {}", String.valueOf(e));
             e.printStackTrace();
         }
     }
@@ -256,7 +254,7 @@ public class QuartzInitializerListener implements ServletContextListener {
                 scheduler.shutdown(waitOnShutdown);
             }
         } catch (Exception e) {
-            log.error("Quartz Scheduler failed to shutdown cleanly: " + e.toString());
+            log.error("Quartz Scheduler failed to shutdown cleanly: {}", String.valueOf(e));
             e.printStackTrace();
         }
 

@@ -224,8 +224,8 @@ public final class CronExpression implements Serializable, Cloneable {
     protected static final Integer ALL_SPEC = ALL_SPEC_INT;
     protected static final Integer NO_SPEC = NO_SPEC_INT;
     
-    protected static final Map<String, Integer> monthMap = new HashMap<String, Integer>(20);
-    protected static final Map<String, Integer> dayMap = new HashMap<String, Integer>(60);
+    protected static final Map<String, Integer> monthMap = new HashMap<>(20);
+    protected static final Map<String, Integer> dayMap = new HashMap<>(60);
     static {
         monthMap.put("JAN", 0);
         monthMap.put("FEB", 1);
@@ -450,28 +450,28 @@ public final class CronExpression implements Serializable, Cloneable {
         try {
 
             if (seconds == null) {
-                seconds = new TreeSet<Integer>();
+                seconds = new TreeSet<>();
             }
             if (minutes == null) {
-                minutes = new TreeSet<Integer>();
+                minutes = new TreeSet<>();
             }
             if (hours == null) {
-                hours = new TreeSet<Integer>();
+                hours = new TreeSet<>();
             }
             if (daysOfMonth == null) {
-                daysOfMonth = new TreeSet<Integer>();
+                daysOfMonth = new TreeSet<>();
             }
             if (nearestWeekdays == null) {
-                nearestWeekdays = new TreeSet<Integer>();
+                nearestWeekdays = new TreeSet<>();
             }
             if (months == null) {
-                months = new TreeSet<Integer>();
+                months = new TreeSet<>();
             }
             if (daysOfWeek == null) {
-                daysOfWeek = new TreeSet<Integer>();
+                daysOfWeek = new TreeSet<>();
             }
             if (years == null) {
-                years = new TreeSet<Integer>();
+                years = new TreeSet<>();
             }
 
             int exprOn = SECOND;
@@ -525,7 +525,7 @@ public final class CronExpression implements Serializable, Cloneable {
             throw pe;
         } catch (Exception e) {
             throw new ParseException("Illegal cron expression format ("
-                    + e.toString() + ")", 0);
+                    + e + ")", 0);
         }
     }
 
@@ -958,7 +958,6 @@ public final class CronExpression implements Serializable, Cloneable {
 
     protected int skipWhiteSpace(int i, String s) {
         for (; i < s.length() && (s.charAt(i) == ' ' || s.charAt(i) == '\t'); i++) {
-            ;
         }
 
         return i;
@@ -966,7 +965,6 @@ public final class CronExpression implements Serializable, Cloneable {
 
     protected int findNextWhiteSpace(int i, String s) {
         for (; i < s.length() && (s.charAt(i) != ' ' || s.charAt(i) != '\t'); i++) {
-            ;
         }
 
         return i;
@@ -1205,7 +1203,7 @@ public final class CronExpression implements Serializable, Cloneable {
 
             // get second.................................................
             st = seconds.tailSet(sec);
-            if (st != null && st.size() != 0) {
+            if (st != null && !st.isEmpty()) {
                 sec = st.first();
             } else {
                 sec = seconds.first();
@@ -1220,7 +1218,7 @@ public final class CronExpression implements Serializable, Cloneable {
 
             // get minute.................................................
             st = minutes.tailSet(min);
-            if (st != null && st.size() != 0) {
+            if (st != null && !st.isEmpty()) {
                 t = min;
                 min = st.first();
             } else {
@@ -1241,7 +1239,7 @@ public final class CronExpression implements Serializable, Cloneable {
 
             // get hour...................................................
             st = hours.tailSet(hr);
-            if (st != null && st.size() != 0) {
+            if (st != null && !st.isEmpty()) {
                 t = hr;
                 hr = st.first();
             } else {
@@ -1381,10 +1379,7 @@ public final class CronExpression implements Serializable, Cloneable {
                         daysToAdd = dow + (7 - cDow);
                     }
 
-                    boolean dayShifted = false;
-                    if (daysToAdd > 0) {
-                        dayShifted = true;
-                    }
+                    boolean dayShifted = daysToAdd > 0;
 
                     day += daysToAdd;
                     int weekOfMonth = day / 7;
@@ -1418,7 +1413,7 @@ public final class CronExpression implements Serializable, Cloneable {
                     int dow = daysOfWeek.first(); // desired
                     // d-o-w
                     st = daysOfWeek.tailSet(cDow);
-                    if (st != null && st.size() > 0) {
+                    if (st != null && !st.isEmpty()) {
                         dow = st.first();
                     }
 
@@ -1472,7 +1467,7 @@ public final class CronExpression implements Serializable, Cloneable {
 
             // get month...................................................
             st = months.tailSet(mon);
-            if (st != null && st.size() != 0) {
+            if (st != null && !st.isEmpty()) {
                 t = mon;
                 mon = st.first();
             } else {
@@ -1499,7 +1494,7 @@ public final class CronExpression implements Serializable, Cloneable {
 
             // get year...................................................
             st = years.tailSet(year);
-            if (st != null && st.size() != 0) {
+            if (st != null && !st.isEmpty()) {
                 t = year;
                 year = st.first();
             } else {

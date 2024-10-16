@@ -34,7 +34,7 @@ import org.quartz.spi.SchedulerSignaler;
  */
 public class SchedulerSignalerImpl implements SchedulerSignaler {
 
-    Logger log = LoggerFactory.getLogger(SchedulerSignalerImpl.class);
+    final Logger log = LoggerFactory.getLogger(SchedulerSignalerImpl.class);
     
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,8 +44,8 @@ public class SchedulerSignalerImpl implements SchedulerSignaler {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    protected QuartzScheduler sched;
-    protected QuartzSchedulerThread schedThread;
+    protected final QuartzScheduler sched;
+    protected final QuartzSchedulerThread schedThread;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,8 +58,8 @@ public class SchedulerSignalerImpl implements SchedulerSignaler {
     public SchedulerSignalerImpl(QuartzScheduler sched, QuartzSchedulerThread schedThread) {
         this.sched = sched;
         this.schedThread = schedThread;
-        
-        log.info("Initialized Scheduler Signaller of type: " + getClass());
+
+        log.info("Initialized Scheduler Signaller of type: {}", getClass());
     }
 
     /*

@@ -75,7 +75,7 @@ public class TriggerUtils {
      */
     public static List<Date> computeFireTimes(OperableTrigger trigger, org.quartz.Calendar cal,
             int numTimes) {
-        LinkedList<Date> lst = new LinkedList<Date>();
+        LinkedList<Date> lst = new LinkedList<>();
 
         OperableTrigger t = (OperableTrigger) trigger.clone();
 
@@ -169,7 +169,7 @@ public class TriggerUtils {
      */
     public static List<Date> computeFireTimesBetween(OperableTrigger trigger,
             org.quartz.Calendar cal, Date from, Date to) {
-        LinkedList<Date> lst = new LinkedList<Date>();
+        LinkedList<Date> lst = new LinkedList<>();
 
         OperableTrigger t = (OperableTrigger) trigger.clone();
 

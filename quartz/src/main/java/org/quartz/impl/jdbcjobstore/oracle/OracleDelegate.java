@@ -33,9 +33,7 @@ import org.quartz.Calendar;
 import org.quartz.JobDetail;
 import org.quartz.impl.jdbcjobstore.StdJDBCDelegate;
 import org.quartz.impl.jdbcjobstore.TriggerPersistenceDelegate;
-import org.quartz.spi.ClassLoadHelper;
 import org.quartz.spi.OperableTrigger;
-import org.slf4j.Logger;
 
 /**
  * <p>
@@ -137,11 +135,8 @@ public class OracleDelegate extends StdJDBCDelegate {
         Object obj = null;
         InputStream binaryInput = rs.getBinaryStream(colName);
         if (binaryInput != null) {
-            ObjectInputStream in = new ObjectInputStream(binaryInput);
-            try {
+            try (ObjectInputStream in = new ObjectInputStream(binaryInput)) {
                 obj = in.readObject();
-            } finally {
-                in.close();
             }
         }
 
@@ -274,7 +269,7 @@ public class OracleDelegate extends StdJDBCDelegate {
             JobDetail jobDetail) throws SQLException, IOException {
 
         byte[] data = null;
-        if (trigger.getJobDataMap().size() > 0) {
+        if (!trigger.getJobDataMap().isEmpty()) {
             data = serializeJobData(trigger.getJobDataMap()).toByteArray();
         }
         
@@ -374,7 +369,7 @@ public class OracleDelegate extends StdJDBCDelegate {
         // save some clock cycles by unnecessarily writing job data blob ...
         boolean updateJobData = trigger.getJobDataMap().isDirty();
         byte[] data = null;
-        if (updateJobData && trigger.getJobDataMap().size() > 0) {
+        if (updateJobData && !trigger.getJobDataMap().isEmpty()) {
             data = serializeJobData(trigger.getJobDataMap()).toByteArray();
         }
                 

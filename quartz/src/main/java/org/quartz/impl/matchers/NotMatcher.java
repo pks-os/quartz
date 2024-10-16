@@ -42,7 +42,7 @@ public class NotMatcher<T extends Key<?>> implements Matcher<T> {
      * Create a NotMatcher that reverses the result of the given matcher.
      */
     public static <U extends Key<?>> NotMatcher<U> not(Matcher<U> operand) {
-        return new NotMatcher<U>(operand);
+        return new NotMatcher<>(operand);
     }
 
     public boolean isMatch(T key) {
@@ -72,10 +72,7 @@ public class NotMatcher<T extends Key<?>> implements Matcher<T> {
             return false;
         NotMatcher<?> other = (NotMatcher<?>) obj;
         if (operand == null) {
-            if (other.operand != null)
-                return false;
-        } else if (!operand.equals(other.operand))
-            return false;
-        return true;
+            return other.operand == null;
+        } else return operand.equals(other.operand);
     }
 }
