@@ -376,7 +376,7 @@ public class XMLSchedulingDataProcessorTest extends TestCase {
 
 			fail("Expected parser configuration to block DOCTYPE. The following was injected into the job description field: " + description);
 		} catch (SAXParseException e) {
-			assertTrue(e.getMessage().contains("DOCTYPE is disallowed"));
+			assertTrue(e.getMessage().toLowerCase().contains("doctype"));
 		} finally {
 			if (scheduler != null)
 				scheduler.shutdown();

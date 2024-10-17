@@ -479,6 +479,10 @@ public final class CronExpression implements Serializable, Cloneable {
             StringTokenizer exprsTok = new StringTokenizer(expression, " \t",
                     false);
 
+            if(exprsTok.countTokens() > 7) {
+                throw new ParseException("Invalid expression has too many terms: " + expression, -1);
+            }
+
             while (exprsTok.hasMoreTokens() && exprOn <= YEAR) {
                 String expr = exprsTok.nextToken().trim();
 

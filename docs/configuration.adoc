@@ -819,7 +819,9 @@ A value of "true" tells Quartz (when using JobStoreTX or CMT) to call setTransac
 
 `org.quartz.jobStore.acquireTriggersWithinLock`
 
-Whether or not the acquisition of next triggers to fire should occur within an explicit database lock.  This was once necessary (in previous versions of Quartz) to avoid dead-locks with particular databases, but is no longer considered necessary, hence the default value is "false".
+Whether or not the acquisition of next triggers to fire should occur within an explicit database lock.  This was once necessary (in previous versions of Quartz) to avoid dead-locks with particular databases, but is no longer considered necessary in most situations, hence the default value is "false".
+
+If using JobStoreCMT (container managed / JTA transactions), this setting is likely needed to be "true" in order to avoid delays in firing newly scheduled triggers.
 
 If "org.quartz.scheduler.batchTriggerAcquisitionMaxCount" is set to > 1, and JDBC JobStore is used, then this property must be set to "true" to avoid data corruption (as of Quartz 2.1.1 "true" is now the default if batchTriggerAcquisitionMaxCount is set > 1).
 

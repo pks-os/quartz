@@ -694,7 +694,7 @@ public class QuartzScheduler implements RemotableQuartzScheduler {
                         ((InterruptableJob)job.getJobInstance()).interrupt();
                     } catch (Throwable e) {
                         // do nothing, this was just a courtesy effort
-                        getLog().warn("Encountered error when interrupting job {} during shutdown: {}", job.getJobDetail().getKey(), e);
+                        getLog().warn("Encountered error when interrupting job {} during shutdown: {}", job.getJobDetail().getKey(), e.getMessage(), e);
                     }
             }
         }

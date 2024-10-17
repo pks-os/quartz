@@ -42,8 +42,8 @@ Wednesday at 12:00:00 pm".
 Individual sub-expressions can contain ranges and/or lists. For example, the day of week field in the previous
 (which reads "WED") example could be replaced with "MON-FRI", "MON,WED,FRI", or even "MON-WED,SAT".
 
-Wild-cards (the '*' character) can be used to say "every" possible value of this field. Therefore the '*'
-character in the "Month" field of the previous example simply means "every month". A '*' in the Day-Of-Week field would
+Wild-cards (the '\*' character) can be used to say "every" possible value of this field. Therefore the '\*'
+character in the "Month" field of the previous example simply means "every month". A '\*' in the Day-Of-Week field would
 therefore obviously mean "every day of the week".
 
 All of the fields have a set of valid values that can be specified. These values should be fairly obvious - such
@@ -211,7 +211,7 @@ When building CronTriggers, you specify the misfire instruction as part of the s
   trigger = newTrigger()
     .withIdentity("trigger3", "group1")
     .withSchedule(cronSchedule("0 0/2 8-17 * * ?")
-        ..withMisfireHandlingInstructionFireAndProceed())
+        .withMisfireHandlingInstructionFireAndProceed())
     .forJob("myJob", "group1")
     .build();
 </code></pre>

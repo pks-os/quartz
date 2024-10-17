@@ -10,9 +10,13 @@ updates:
     schedule:
       interval: "daily"
     target-branch: main
+    ignore:
+      - dependency-name: "org.mockito:mockito-core"
 
   - package-ecosystem: "gradle" # See documentation for possible values
     directory: "/"
     schedule:
       interval: "daily"
     target-branch: quartz-2.4.x
+    ignore:
+      - dependency-name: "org.mockito:mockito-core"

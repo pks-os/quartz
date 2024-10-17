@@ -61,7 +61,18 @@ public class CronExpressionTest extends SerializationTestSupport {
         assertEquals(targetCronExpression.getCronExpression(), deserializedCronExpression.getCronExpression());
         assertEquals(targetCronExpression.getTimeZone(), deserializedCronExpression.getTimeZone());
     }
-    
+
+    public void testTooManyTokens() throws Exception {
+        try {
+            new CronExpression("0 15 10 * * ? 2005 *"); // too many tokens/terms in expression
+            fail("Expected ParseException did not occur for invalid expression");
+        } catch(ParseException pe) {
+            assertTrue("Incorrect ParseException thrown",
+                    pe.getMessage().contains("too many"));
+        }
+
+    }
+
     /*
      * Test method for 'org.quartz.CronExpression.isSatisfiedBy(Date)'.
      */
@@ -84,6 +95,7 @@ public class CronExpressionTest extends SerializationTestSupport {
         cal.set(2005, Calendar.JUNE, 1, 10, 14, 0);
         assertFalse(cronExpression.isSatisfiedBy(cal.getTime()));
     }
+
 
     public void testLastDayOffset() throws Exception {
         CronExpression cronExpression = new CronExpression("0 15 10 L-2 * ? 2010");

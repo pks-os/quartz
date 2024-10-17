@@ -81,9 +81,9 @@ the listener wants to receive events for.
 
 **Adding a JobListener that is interested in a particular job:**
 
-<pre>
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">
 scheduler.getListenerManager().addJobListener(myJobListener, KeyMatcher.jobKeyEquals(new JobKey("myJobName", "myJobGroup")));
-</pre>
+</code></pre>
 
 
 You may want to use static imports for the matcher and key classes, which will make your defining the matchers cleaner:

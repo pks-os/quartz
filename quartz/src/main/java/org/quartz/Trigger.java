@@ -102,6 +102,11 @@ public interface Trigger extends Serializable, Cloneable, Comparable<Trigger> {
      * the documentation for the <code>updateAfterMisfire()</code> method
      * on the particular <code>Trigger</code> implementation you are using.
      * </p>
+     *
+     * @see org.quartz.impl.triggers.SimpleTriggerImpl#updateAfterMisfire(Calendar)
+     * @see org.quartz.impl.triggers.CronTriggerImpl#updateAfterMisfire(Calendar)
+     * @see org.quartz.impl.triggers.DailyTimeIntervalTriggerImpl#updateAfterMisfire(Calendar)
+     * @see org.quartz.impl.triggers.CalendarIntervalTriggerImpl#updateAfterMisfire(Calendar)
      */
     int MISFIRE_INSTRUCTION_SMART_POLICY = 0;
     

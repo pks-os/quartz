@@ -29,26 +29,8 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
 
     compileOnly 'jakarta.transaction:jakarta.transaction-api:2.0.1'
+    testImplementation 'jakarta.transaction:jakarta.transaction-api:2.0.1'
     compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
-
-/*
-            <dependency>
-            <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-    <version>5.0.0</version>
-    </dependency>
-            <dependency>
-            <groupId>jakarta.transaction</groupId>
-      <artifactId>jakarta.transaction-api</artifactId>
-    <version>2.0.1</version>
-    </dependency>
-            <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-    <version>4.0.0</version>
-    </dependency>
-    */
-
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation 'asm:asm:3.3.1'
