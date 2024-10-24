@@ -32,7 +32,10 @@ dependencies {
     testImplementation 'jakarta.transaction:jakarta.transaction-api:2.0.1'
     compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
 
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitPlatformVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitPlatformVersion"
     testImplementation "junit:junit:$junitVersion"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitPlatformVersion"
     testImplementation 'asm:asm:3.3.1'
     testImplementation 'org.mockito:mockito-core:1.9.5'
     testImplementation 'org.hamcrest:hamcrest-library:3.0'
@@ -45,6 +48,8 @@ dependencies {
 test {
     maxParallelForks 1
     forkEvery 1
+    useJUnitPlatform {
+    }
 }
 
 java {
