@@ -16,40 +16,43 @@
  */
 package org.quartz;
 
+import org.junit.jupiter.api.Test;
+
 import java.text.ParseException;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.fail;
 
-public class Quartz601Test extends TestCase {
 
-    public void testNormal() {
+class Quartz601Test  {
+    @Test
+    void testNormal() {
         for(int i=0; i<6; i++) {
             assertParsesForField("0 15 10 * * ? 2005", i);
         }
     }
-    public void testSecond() {
+    void testSecond() {
           assertParsesForField("58-4 5 21 ? * MON-FRI", 0);
     }
-    public void testMinute() {
+    void testMinute() {
           assertParsesForField("0 58-4 21 ? * MON-FRI", 1);
     }
-    public void testHour() {
+    void testHour() {
           assertParsesForField("0 0/5 21-3 ? * MON-FRI", 2);
     }
-    public void testDayOfWeekNumber() {
+    void testDayOfWeekNumber() {
           assertParsesForField("58 5 21 ? * 6-2", 5);
     }
-    public void testDayOfWeek() {
+    void testDayOfWeek() {
           assertParsesForField("58 5 21 ? * FRI-TUE", 5);
     }
-    public void testDayOfMonth() {
+    void testDayOfMonth() {
           assertParsesForField("58 5 21 28-5 1 ?", 3);
     }
-    public void testMonth() {
+    void testMonth() {
           assertParsesForField("58 5 21 ? 11-2 FRI", 4);
     }
-    public void testAmbiguous() {
+    void testAmbiguous() {
           assertParsesForField("0 0 14-6 ? * FRI-MON", 2);
           assertParsesForField("0 0 14-6 ? * FRI-MON", 5);
 
@@ -57,18 +60,17 @@ public class Quartz601Test extends TestCase {
           assertParsesForField("55-3 56-2 6 ? * FRI", 1);
     }
 
-    private Set<Integer> assertParsesForField(String expression, int constant) {
+    private void assertParsesForField(String expression, int constant) {
         try {
             CronExpression cronExpression = new CronExpression(expression);
             Set<Integer> set = cronExpression.getSet(constant);
+            assert set != null;
             if(set.isEmpty()) {
                 fail("Empty field ["+constant+"] returned for " + expression);
             }
-            return set;
         } catch(ParseException pe) {
             fail("Exception thrown during parsing: " + pe);
         }
-        return null;  // not reachable
     }
 
 }

@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import junit.framework.TestCase;
+
 
 /**
  * Base class for unit tests that wish to verify backwards compatibility of serialization with earlier versions
@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  * using the version of Quartz matching to the VERSION values. Then during test, each of this
  * file will be deserialized to verify the data.</p>
  */
-public abstract class SerializationTestSupport extends TestCase {
+public abstract class SerializationTestSupport  {
 
     /**
      * Get the object to serialize when generating serialized file for future
@@ -56,7 +56,7 @@ public abstract class SerializationTestSupport extends TestCase {
      * Test that we can successfully deserialize our target
      * class for all of the given Quartz versions. 
      */
-    public void testSerialization() throws Exception {
+    void testSerialization() throws Exception {
         Object targetObject = getTargetObject();
         
         for (int i = 0; i < getVersions().length; i++) {

@@ -23,6 +23,7 @@ import org.quartz.impl.triggers.CronTriggerImpl;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for CronTrigger.
@@ -83,14 +84,14 @@ public class CronTriggerTest extends SerializationTestSupport {
     }
         
     
-    public void testClone() throws ParseException {
+    void testClone() throws ParseException {
         CronTriggerImpl trigger = new CronTriggerImpl();
         trigger.setName("test");
         trigger.setGroup("testGroup");
         trigger.setCronExpression("0 0 12 * * ?");
         CronTrigger trigger2 = (CronTrigger) trigger.clone();
 
-        assertEquals( "Cloning failed", trigger, trigger2 );
+        assertEquals(trigger, trigger2, "Cloning failed");
 
         // equals() doesn't test the cron expression
         assertEquals( "Cloning failed for the cron expression", 
@@ -99,16 +100,16 @@ public class CronTriggerTest extends SerializationTestSupport {
     }
 
     // http://jira.opensymphony.com/browse/QUARTZ-558
-    public void testQuartz558() throws ParseException {
+    void testQuartz558() throws ParseException {
         CronTriggerImpl trigger = new CronTriggerImpl();
         trigger.setName("test");
         trigger.setGroup("testGroup");
         CronTrigger trigger2 = (CronTrigger) trigger.clone();
 
-        assertEquals( "Cloning failed", trigger, trigger2 );
+        assertEquals(trigger, trigger2, "Cloning failed");
     }
 
-    public void testMisfireInstructionValidity() throws ParseException {
+    void testMisfireInstructionValidity() throws ParseException {
         CronTriggerImpl trigger = new CronTriggerImpl();
 
         try {
@@ -130,7 +131,7 @@ public class CronTriggerTest extends SerializationTestSupport {
         }
     }
 
-    public void testMisfireInstructionInDerivedBuilder() throws ParseException {
+    void testMisfireInstructionInDerivedBuilder() throws ParseException {
         for (int policy : asList(
                 Trigger.MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY,
                 Trigger.MISFIRE_INSTRUCTION_SMART_POLICY,
@@ -147,7 +148,7 @@ public class CronTriggerTest extends SerializationTestSupport {
         }
     }
 
-    public void testUndefinedMisfireInstructionInDerivedBuilder() throws ParseException {
+    void testUndefinedMisfireInstructionInDerivedBuilder() throws ParseException {
         CronTriggerImpl trigger = new CronTriggerImpl() {
             @Override
             public int getMisfireInstruction() {

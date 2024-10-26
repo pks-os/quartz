@@ -19,14 +19,15 @@
 package org.quartz.utils;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.quartz.integrations.tests.JdbcQuartzDerbyUtilities;
 import org.quartz.integrations.tests.QuartzDatabaseTestSupport;
 
 import java.util.Properties;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * A integration test to ensure PoolConnectionProvider is working properly.
@@ -35,7 +36,7 @@ public class C3p0PoolingConnectionProviderTest extends QuartzDatabaseTestSupport
     boolean testConnectionProviderClass = false;
 
     @Test
-    public void testC3p0PoolProviderWithExtraProps() throws Exception {
+    void testC3p0PoolProviderWithExtraProps() throws Exception {
         validateC3p0PoolProviderClassWithExtraProps();
 
         // Turn flag on for next test.
@@ -43,29 +44,29 @@ public class C3p0PoolingConnectionProviderTest extends QuartzDatabaseTestSupport
     }
 
     @Test
-    public void testC3p0PoolProviderClassWithExtraProps() throws Exception {
+    void testC3p0PoolProviderClassWithExtraProps() throws Exception {
         validateC3p0PoolProviderClassWithExtraProps();
 
         // Turn flag off for next test.
         testConnectionProviderClass = false;
     }
 
-    private void validateC3p0PoolProviderClassWithExtraProps() throws Exception {
+    private void validateC3p0PoolProviderClassWithExtraProps() {
         DBConnectionManager dbManager = DBConnectionManager.getInstance();
         ConnectionProvider provider = dbManager.getConnectionProvider("myDS");
 
         ComboPooledDataSource ds = ((C3p0PoolingConnectionProvider)provider).getDataSource();
 
-        Assert.assertThat(ds.getDriverClass(), Matchers.is("org.apache.derby.jdbc.ClientDriver"));
-        Assert.assertThat(ds.getJdbcUrl(), Matchers.is(JdbcQuartzDerbyUtilities.DATABASE_CONNECTION_PREFIX));
-        Assert.assertThat(ds.getUser(), Matchers.is("quartz"));
-        Assert.assertThat(ds.getPassword(), Matchers.is("quartz"));
-        Assert.assertThat(ds.getMaxPoolSize(), Matchers.is(5));
+        assertThat(ds.getDriverClass(), Matchers.is("org.apache.derby.jdbc.ClientDriver"));
+        assertThat(ds.getJdbcUrl(), Matchers.is(JdbcQuartzDerbyUtilities.DATABASE_CONNECTION_PREFIX));
+        assertThat(ds.getUser(), Matchers.is("quartz"));
+        assertThat(ds.getPassword(), Matchers.is("quartz"));
+        assertThat(ds.getMaxPoolSize(), Matchers.is(5));
 
-        Assert.assertThat(ds.getMinPoolSize(), Matchers.is(5));
-        Assert.assertThat(ds.getAcquireIncrement(), Matchers.is(5));
-        Assert.assertThat(ds.getAcquireRetryAttempts(), Matchers.is(3));
-        Assert.assertThat(ds.getAcquireRetryDelay(), Matchers.is(3000));
+        assertThat(ds.getMinPoolSize(), Matchers.is(5));
+        assertThat(ds.getAcquireIncrement(), Matchers.is(5));
+        assertThat(ds.getAcquireRetryAttempts(), Matchers.is(3));
+        assertThat(ds.getAcquireRetryDelay(), Matchers.is(3000));
     }
 
 

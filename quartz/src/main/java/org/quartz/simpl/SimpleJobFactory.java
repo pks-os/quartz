@@ -43,7 +43,7 @@ public class SimpleJobFactory implements JobFactory {
         return log;
     }
     
-    public Job newJob(TriggerFiredBundle bundle, Scheduler Scheduler) throws SchedulerException {
+    public Job newJob(TriggerFiredBundle bundle, Scheduler scheduler) throws SchedulerException {
 
         JobDetail jobDetail = bundle.getJobDetail();
         Class<? extends Job> jobClass = jobDetail.getJobClass();
@@ -51,13 +51,12 @@ public class SimpleJobFactory implements JobFactory {
             if(log.isDebugEnabled()) {
                 log.debug("Producing instance of Job '{}', class={}", jobDetail.getKey(), jobClass.getName());
             }
-            
-            return jobClass.newInstance();
+
+            return jobClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            SchedulerException se = new SchedulerException(
+            throw new SchedulerException(
                     "Problem instantiating class '"
                             + jobDetail.getJobClass().getName() + "'", e);
-            throw se;
         }
     }
 

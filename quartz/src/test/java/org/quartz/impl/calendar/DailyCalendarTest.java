@@ -16,23 +16,28 @@
  */
 package org.quartz.impl.calendar;
 
+import org.junit.jupiter.api.Test;
 import org.quartz.SerializationTestSupport;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for DailyCalendar.
  */
 public class DailyCalendarTest extends SerializationTestSupport {
     private static final String[] VERSIONS = new String[] {"1.5.2"};
-    
-    public void testStringStartEndTimes() {
+
+    @Test
+    void testStringStartEndTimes() {
         DailyCalendar dailyCalendar = new DailyCalendar("1:20", "14:50");
         assertTrue(dailyCalendar.toString().indexOf("01:20:00:000 - 14:50:00:000") > 0);
         
         dailyCalendar = new DailyCalendar("1:20:1:456", "14:50:15:2");
         assertTrue(dailyCalendar.toString().indexOf("01:20:01:456 - 14:50:15:002") > 0);
     }
-    
-    public void testStringInvertTimeRange() {
+
+    @Test
+    void testStringInvertTimeRange() {
         DailyCalendar dailyCalendar = new DailyCalendar("1:20", "14:50");
         dailyCalendar.setInvertTimeRange(true);
         assertTrue(dailyCalendar.toString().indexOf("inverted: true") > 0);

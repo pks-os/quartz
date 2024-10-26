@@ -18,13 +18,11 @@
 package org.quartz.integrations.tests;
 
 import org.apache.derby.drda.NetworkServerControl;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import org.quartz.*;
 
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -42,7 +40,7 @@ public class QuartzDatabaseTestSupport extends QuartzMemoryTestSupport {
     protected static final Logger LOG = LoggerFactory.getLogger(QuartzDatabaseTestSupport.class);
     protected static NetworkServerControl derbyServer;
 
-    @BeforeClass
+    @BeforeAll
     public static void initialize() throws Exception {
         LOG.info("Starting DERBY database.");
         InetAddress localhost = InetAddress.getByName("localhost");
@@ -72,7 +70,7 @@ public class QuartzDatabaseTestSupport extends QuartzMemoryTestSupport {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void shutdownDb() throws Exception {
         try {
             LOG.info("Destroying Database.");

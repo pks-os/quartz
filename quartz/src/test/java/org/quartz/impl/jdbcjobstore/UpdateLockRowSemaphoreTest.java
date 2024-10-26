@@ -16,7 +16,10 @@
  */
 package org.quartz.impl.jdbcjobstore;
 
-import static org.mockito.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.startsWith;
+;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,14 +27,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author cdennis
  */
-public class UpdateLockRowSemaphoreTest {
+class UpdateLockRowSemaphoreTest {
   
   private static final PreparedStatement GOOD_STATEMENT = mock(PreparedStatement.class);
   private static final PreparedStatement FAIL_STATEMENT = mock(PreparedStatement.class);
@@ -48,7 +51,7 @@ public class UpdateLockRowSemaphoreTest {
   }
   
   @Test
-  public void testSingleSuccessUsingUpdate() throws LockException, SQLException {
+  void testSingleSuccessUsingUpdate() throws LockException, SQLException {
     UpdateLockRowSemaphore semaphore = new UpdateLockRowSemaphore();
     semaphore.setSchedName("test");
 
@@ -57,11 +60,11 @@ public class UpdateLockRowSemaphoreTest {
             .thenReturn(GOOD_STATEMENT)
             .thenThrow(AssertionError.class);
     
-    Assert.assertTrue(semaphore.obtainLock(mockConnection, "test"));
+    assertTrue(semaphore.obtainLock(mockConnection, "test"));
   }
   
   @Test
-  public void testSingleFailureFollowedBySuccessUsingUpdate() throws LockException, SQLException {
+  void testSingleFailureFollowedBySuccessUsingUpdate() throws LockException, SQLException {
     UpdateLockRowSemaphore semaphore = new UpdateLockRowSemaphore();
     semaphore.setSchedName("test");
 
@@ -71,11 +74,11 @@ public class UpdateLockRowSemaphoreTest {
             .thenReturn(GOOD_STATEMENT)
             .thenThrow(AssertionError.class);
     
-    Assert.assertTrue(semaphore.obtainLock(mockConnection, "test"));
+    assertTrue(semaphore.obtainLock(mockConnection, "test"));
   }
 
   @Test
-  public void testDoubleFailureFollowedBySuccessUsingUpdate() throws LockException, SQLException {
+  void testDoubleFailureFollowedBySuccessUsingUpdate() throws LockException, SQLException {
     UpdateLockRowSemaphore semaphore = new UpdateLockRowSemaphore();
     semaphore.setSchedName("test");
 
@@ -86,14 +89,14 @@ public class UpdateLockRowSemaphoreTest {
     
     try {
       semaphore.obtainLock(mockConnection, "test");
-      Assert.fail();
+      fail();
     } catch (LockException e) {
       //expected
     }
   }
   
   @Test
-  public void testFallThroughToInsert() throws SQLException, LockException {
+  void testFallThroughToInsert() throws SQLException, LockException {
     UpdateLockRowSemaphore semaphore = new UpdateLockRowSemaphore();
     semaphore.setSchedName("test");
 
@@ -105,6 +108,6 @@ public class UpdateLockRowSemaphoreTest {
             .thenReturn(GOOD_STATEMENT)
             .thenThrow(AssertionError.class);
     
-    Assert.assertTrue(semaphore.obtainLock(mockConnection, "test"));
+    assertTrue(semaphore.obtainLock(mockConnection, "test"));
   }
 }

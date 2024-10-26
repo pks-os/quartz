@@ -16,12 +16,14 @@
  */
 package org.quartz.integrations.tests;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 
 import org.quartz.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -32,7 +34,7 @@ import static org.quartz.TriggerKey.triggerKey;
  */
 public class JobDataMapStorageTest extends QuartzDatabaseTestSupport {
     @Test
-    public void testJobDataMapDirtyFlag() throws Exception {
+    void testJobDataMapDirtyFlag() throws Exception {
         JobDetail jobDetail = newJob(HelloJob.class)
                 .withIdentity("test")
                 .usingJobData("jfoo", "bar")
@@ -48,10 +50,10 @@ public class JobDataMapStorageTest extends QuartzDatabaseTestSupport {
 
         JobDetail storedJobDetail = scheduler.getJobDetail(JobKey.jobKey("test"));
         JobDataMap storedJobMap = storedJobDetail.getJobDataMap();
-        Assert.assertThat(storedJobMap.isDirty(), is(false));
+        assertThat(storedJobMap.isDirty(), is(false));
 
         Trigger storedTrigger = scheduler.getTrigger(triggerKey("test"));
         JobDataMap storedTriggerMap = storedTrigger.getJobDataMap();
-        Assert.assertThat(storedTriggerMap.isDirty(), is(false));
+        assertThat(storedTriggerMap.isDirty(), is(false));
     }
 }

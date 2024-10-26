@@ -18,7 +18,7 @@ package org.quartz.integrations.tests;
 import java.math.BigDecimal;
 import java.util.Properties;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.quartz.JobDetail;
 import org.quartz.ScheduleBuilder;

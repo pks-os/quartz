@@ -18,17 +18,22 @@ package org.quartz;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import junit.framework.TestCase;
 
+
+import org.junit.jupiter.api.Test;
 import org.quartz.core.QuartzScheduler;
 
-public class VersionTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class VersionTest  {
     @SuppressWarnings("unused")
     private static final String SNAPSHOT_SUFFIX = "-SNAPSHOT";
     @SuppressWarnings("unused")
     private static final String PROTOTYPE_SUFFIX = "-PROTO";
 
-    public void testVersionParsing() {
+    @Test
+    void testVersionParsing() {
         assertNonNegativeInteger(QuartzScheduler.getVersionMajor());
         assertNonNegativeInteger(QuartzScheduler.getVersionMinor());
 
@@ -53,7 +58,7 @@ public class VersionTest extends TestCase {
             parsed = true;
         } catch (NumberFormatException e) {}
 
-        assertTrue("Failed parse version segment: " + s, parsed);
+        assertTrue(parsed, "Failed parse version segment: " + s);
         assertTrue(intVal >= 0);
     }
 }

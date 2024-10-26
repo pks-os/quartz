@@ -16,7 +16,7 @@
  */
 package org.quartz.xml;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -26,12 +26,13 @@ import org.quartz.spi.ClassLoadHelper;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class XMLSchedulingDataProcessorPluginTest extends TestCase implements TriggerListener {
+public class XMLSchedulingDataProcessorPluginTest  implements TriggerListener {
 
     CountDownLatch latch = new CountDownLatch(1);
     boolean jobRan = false;
 
-    public void testPluginSchedulesFromSimpleXMLFile() throws Exception {
+    @Test
+    void testPluginSchedulesFromSimpleXMLFile() throws Exception {
         Scheduler scheduler = null;
         try {
             StdSchedulerFactory factory = new StdSchedulerFactory("org/quartz/xml/quartz-xml-plugin-test.properties");
@@ -46,6 +47,11 @@ public class XMLSchedulingDataProcessorPluginTest extends TestCase implements Tr
             if (scheduler != null)
                 scheduler.shutdown();
         }
+    }
+
+    @Override
+    public String getName() {
+        return "XMLSchedulingDataProcessorPluginTestListener";
     }
 
     @Override
@@ -68,4 +74,5 @@ public class XMLSchedulingDataProcessorPluginTest extends TestCase implements Tr
     public void triggerComplete(Trigger trigger, JobExecutionContext context, Trigger.CompletedExecutionInstruction triggerInstructionCode) {
 
     }
+
 }

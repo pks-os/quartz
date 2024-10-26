@@ -17,6 +17,9 @@
 package org.quartz;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 /**
  * Unit test for JobDataMap serialization backwards compatibility.
  */

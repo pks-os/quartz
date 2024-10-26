@@ -16,6 +16,8 @@
  */
 package org.quartz;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -25,14 +27,14 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import junit.framework.TestCase;
 
+import org.junit.jupiter.api.Test;
 import org.quartz.impl.StdSchedulerFactory;
 
 /**
  * Test job interruption
  */
-public class InterruptableJobTest extends TestCase {
+public class InterruptableJobTest  {
 
     static final CyclicBarrier sync = new CyclicBarrier(2);
 
@@ -71,11 +73,12 @@ public class InterruptableJobTest extends TestCase {
         }
     }
     
-    @Override
+  /*  @Override
     protected void setUp() throws Exception {
-    }
+    }*/
 
-    public void testJobInterruption() throws Exception {
+    @Test
+    void testJobInterruption() throws Exception {
         
         // create a simple scheduler
         
@@ -105,8 +108,8 @@ public class InterruptableJobTest extends TestCase {
         sync.await();  // make sure the job starts running...
         
         List<JobExecutionContext> executingJobs = sched.getCurrentlyExecutingJobs();
-        
-        assertTrue("Number of executing jobs should be 1 ", executingJobs.size() == 1);
+
+        assertEquals(1, executingJobs.size(), "Number of executing jobs should be 1 ");
         
         JobExecutionContext jec = executingJobs.get(0);
         
@@ -114,9 +117,9 @@ public class InterruptableJobTest extends TestCase {
         
         sync.await(); // wait for the job to terminate
 
-        assertTrue("Expected successful result from interruption of job ", interruptResult);
+        assertTrue(interruptResult, "Expected successful result from interruption of job ");
 
-        assertTrue("Expected interrupted flag to be set on job class ", TestInterruptableJob.interrupted.get());
+        assertTrue(TestInterruptableJob.interrupted.get(), "Expected interrupted flag to be set on job class ");
         
         sched.clear();
 

@@ -26,7 +26,7 @@ public class JdbcJobStoreTest extends AbstractJobStoreTest {
 
 	private HashMap<String, JobStoreSupport> stores = new HashMap<String, JobStoreSupport>();
 	
-    public void testNothing() {
+    void testNothing() {
         // nothing
     }
 

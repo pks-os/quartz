@@ -22,12 +22,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
-import static org.junit.Assert.assertThat;
+
 
 import org.quartz.*;
 import static org.quartz.integrations.tests.TrackingJob.SCHEDULED_TIMES_KEY;
@@ -38,7 +39,7 @@ import static org.quartz.integrations.tests.TrackingJob.SCHEDULED_TIMES_KEY;
  */
 public class QuartzMemoryCronTriggerTest extends QuartzMemoryTestSupport {
     @Test
-    public void testCronRepeatCount() throws Exception {
+    void testCronRepeatCount() throws Exception {
         CronTrigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity("test")
                 .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ?"))

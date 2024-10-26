@@ -16,20 +16,21 @@
  */
 package org.quartz;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.quartz.DateBuilder.evenSecondDateAfterNow;
 import static org.quartz.DateBuilder.futureDate;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.util.Date;
 
-import junit.framework.TestCase;
 
+import org.junit.jupiter.api.Test;
 import org.quartz.DateBuilder.IntervalUnit;
 
 /**
  * Test TriggerBuilder functionality
  */
-public class TriggerBuilderTest extends TestCase {
+public class TriggerBuilderTest  {
 
 
     @SuppressWarnings("deprecation")
@@ -53,22 +54,22 @@ public class TriggerBuilderTest extends TestCase {
         }
     }
 
-    @Override
+/*    @Override
     protected void setUp() throws Exception {
-    }
-
-    public void testTriggerBuilder() throws Exception {
+    }*/
+    @Test
+    void testTriggerBuilder() {
         
         Trigger trigger = newTrigger()
             .build();
-        
-        assertTrue("Expected non-null trigger name ", trigger.getKey().getName() != null);
-        assertTrue("Unexpected trigger group: " + trigger.getKey().getGroup(), trigger.getKey().getGroup().equals(JobKey.DEFAULT_GROUP));
-        assertTrue("Unexpected job key: " + trigger.getJobKey(), trigger.getJobKey() == null);
-        assertTrue("Unexpected job description: " + trigger.getDescription(), trigger.getDescription() == null);
-        assertTrue("Unexpected trigger priority: " + trigger.getPriority(), trigger.getPriority() == Trigger.DEFAULT_PRIORITY);
-        assertTrue("Unexpected start-time: " + trigger.getStartTime(), trigger.getStartTime() != null);
-        assertTrue("Unexpected end-time: " + trigger.getEndTime(), trigger.getEndTime() == null);
+
+        assertNotNull(trigger.getKey().getName(), "Expected non-null trigger name ");
+        assertEquals(JobKey.DEFAULT_GROUP, trigger.getKey().getGroup(), "Unexpected trigger group: " + trigger.getKey().getGroup());
+        assertNull(trigger.getJobKey(), "Unexpected job key: " + trigger.getJobKey());
+        assertNull(trigger.getDescription(), "Unexpected job description: " + trigger.getDescription());
+        assertEquals(Trigger.DEFAULT_PRIORITY, trigger.getPriority(), "Unexpected trigger priority: " + trigger.getPriority());
+        assertNotNull(trigger.getStartTime(), "Unexpected start-time: " + trigger.getStartTime());
+        assertNull(trigger.getEndTime(), "Unexpected end-time: " + trigger.getEndTime());
         
         Date stime = evenSecondDateAfterNow();
         
@@ -79,19 +80,20 @@ public class TriggerBuilderTest extends TestCase {
             .endAt(futureDate(10, IntervalUnit.WEEK))
             .startAt(stime)
             .build();
-        
-        assertTrue("Unexpected trigger name " + trigger.getKey().getName(), trigger.getKey().getName().equals("t1"));
-        assertTrue("Unexpected trigger group: " + trigger.getKey().getGroup(), trigger.getKey().getGroup().equals(JobKey.DEFAULT_GROUP));
-        assertTrue("Unexpected job key: " + trigger.getJobKey(), trigger.getJobKey() == null);
-        assertTrue("Unexpected job description: " + trigger.getDescription(), trigger.getDescription().equals("my description"));
-        assertTrue("Unexpected trigger priority: " + trigger, trigger.getPriority() == 2);
-        assertTrue("Unexpected start-time: " + trigger.getStartTime(), trigger.getStartTime().equals(stime));
-        assertTrue("Unexpected end-time: " + trigger.getEndTime(), trigger.getEndTime() != null);
+
+        assertEquals("t1", trigger.getKey().getName(), "Unexpected trigger name " + trigger.getKey().getName());
+        assertEquals(JobKey.DEFAULT_GROUP, trigger.getKey().getGroup(), "Unexpected trigger group: " + trigger.getKey().getGroup());
+        assertNull(trigger.getJobKey(), "Unexpected job key: " + trigger.getJobKey());
+        assertEquals("my description", trigger.getDescription(), "Unexpected job description: " + trigger.getDescription());
+        assertEquals(2, trigger.getPriority(), "Unexpected trigger priority: " + trigger);
+        assertEquals(trigger.getStartTime(), stime, "Unexpected start-time: " + trigger.getStartTime());
+        assertNotNull(trigger.getEndTime(), "Unexpected end-time: " + trigger.getEndTime());
         
     }
     
     /** QTZ-157 */
-    public void testTriggerBuilderWithEndTimePriorCurrentTime() throws Exception {
+    @Test
+    void testTriggerBuilderWithEndTimePriorCurrentTime() throws Exception {
     	TriggerBuilder.newTrigger()
                 .withIdentity("some trigger name", "some trigger group")
                 .forJob("some job name", "some job group")

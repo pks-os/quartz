@@ -25,11 +25,12 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.listeners.JobListenerSupport;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
@@ -38,7 +39,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
  * 
  * @author Zemian Deng <saltnlight5@gmail.com>
  */
-public class DisallowConcurrentExecutionJobTest {
+class DisallowConcurrentExecutionJobTest {
 	
 	private static final long JOB_BLOCK_TIME = 300L;
 	
@@ -94,7 +95,7 @@ public class DisallowConcurrentExecutionJobTest {
 	}
 	
         @Test
-	public void testNoConcurrentExecOnSameJob() throws Exception {
+		void testNoConcurrentExecOnSameJob() throws Exception {
 
 		List<Date> jobExecDates = Collections.synchronizedList(new ArrayList<Date>());
 		CyclicBarrier barrier = new CyclicBarrier(2);
@@ -123,15 +124,15 @@ public class DisallowConcurrentExecutionJobTest {
 		
 		scheduler.shutdown(true);
 		
-                Assert.assertThat(jobExecDates, hasSize(2));
+                assertThat(jobExecDates, hasSize(2));
                 long fireTimeTrigger1 = jobExecDates.get(0).getTime();
                 long fireTimeTrigger2 = jobExecDates.get(1).getTime();
-                Assert.assertThat(fireTimeTrigger2 - fireTimeTrigger1, greaterThanOrEqualTo(JOB_BLOCK_TIME));
+                assertThat(fireTimeTrigger2 - fireTimeTrigger1, greaterThanOrEqualTo(JOB_BLOCK_TIME));
 	}
 	
 	/** QTZ-202 */
         @Test
-	public void testNoConcurrentExecOnSameJobWithBatching() throws Exception {
+		void testNoConcurrentExecOnSameJobWithBatching() throws Exception {
 
 		List<Date> jobExecDates = Collections.synchronizedList(new ArrayList<Date>());
 		CyclicBarrier barrier = new CyclicBarrier(2);
@@ -161,9 +162,9 @@ public class DisallowConcurrentExecutionJobTest {
 		
 		scheduler.shutdown(true);
 		
-                Assert.assertThat(jobExecDates, hasSize(2));
+                assertThat(jobExecDates, hasSize(2));
                 long fireTimeTrigger1 = jobExecDates.get(0).getTime();
                 long fireTimeTrigger2 = jobExecDates.get(1).getTime();
-                Assert.assertThat(fireTimeTrigger2 - fireTimeTrigger1, greaterThanOrEqualTo(JOB_BLOCK_TIME));
+                assertThat(fireTimeTrigger2 - fireTimeTrigger1, greaterThanOrEqualTo(JOB_BLOCK_TIME));
 	}
 }

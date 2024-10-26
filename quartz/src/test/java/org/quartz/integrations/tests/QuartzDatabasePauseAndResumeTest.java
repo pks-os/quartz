@@ -16,7 +16,7 @@
  */
 package org.quartz.integrations.tests;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
@@ -24,8 +24,9 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -36,7 +37,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class QuartzDatabasePauseAndResumeTest extends QuartzDatabaseTestSupport {
 
     @Test
-    public void testPauseAndResumeTriggers() throws Exception {
+    void testPauseAndResumeTriggers() throws Exception {
         JobDetail jobDetail = newJob(HelloJob.class)
                 .withIdentity("test_1")
                 .build();
@@ -63,7 +64,7 @@ public class QuartzDatabasePauseAndResumeTest extends QuartzDatabaseTestSupport 
     }
 
     @Test
-    public void testResumeTriggersBeforeAddJob() throws Exception {
+    void testResumeTriggersBeforeAddJob() throws Exception {
         scheduler.pauseTriggers(GroupMatcher.triggerGroupEquals("abc"));
         scheduler.resumeTriggers(GroupMatcher.triggerGroupEquals("abc"));
 
@@ -94,7 +95,7 @@ public class QuartzDatabasePauseAndResumeTest extends QuartzDatabaseTestSupport 
     }
 
     @Test
-    public void testPauseAndResumeJobs() throws Exception {
+    void testPauseAndResumeJobs() throws Exception {
         JobDetail jobDetail = newJob(HelloJob.class)
                 .withIdentity("test_3", "abc")
                 .build();
@@ -123,7 +124,7 @@ public class QuartzDatabasePauseAndResumeTest extends QuartzDatabaseTestSupport 
 
 
     @Test
-    public void testResumeJobsBeforeAddJobs() throws Exception {
+    void testResumeJobsBeforeAddJobs() throws Exception {
         scheduler.pauseJobs(GroupMatcher.jobGroupEquals("abc"));
         scheduler.resumeJobs(GroupMatcher.jobGroupEquals("abc"));
 

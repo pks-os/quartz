@@ -16,20 +16,24 @@
  */
 package org.quartz;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.containsString;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+
+
+import org.junit.jupiter.api.Test;
 import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.StdSchedulerFactory;
 
-import junit.framework.TestCase;
+
 
 /**
  * DefaultSchedulerTest
  */
-public class DefaultSchedulerTest extends TestCase {
+class DefaultSchedulerTest  {
 
-    public void testAddJobNoTrigger() throws Exception {
+    @Test
+    void testAddJobNoTrigger() throws Exception {
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
         JobDetailImpl jobDetail = new JobDetailImpl();
         jobDetail.setName("testjob");

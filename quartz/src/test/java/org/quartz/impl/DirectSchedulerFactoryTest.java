@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.TestCase;
+
 
 import org.quartz.Scheduler;
 import org.quartz.core.QuartzScheduler;
@@ -31,8 +31,10 @@ import org.quartz.spi.ClassLoadHelper;
 import org.quartz.spi.SchedulerPlugin;
 import org.quartz.spi.ThreadPool;
 
-public class DirectSchedulerFactoryTest extends TestCase {
-    public void testPlugins() throws Exception {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class DirectSchedulerFactoryTest  {
+    void testPlugins() throws Exception {
         final StringBuffer result = new StringBuffer();
         
         SchedulerPlugin testPlugin = new SchedulerPlugin() {
@@ -61,7 +63,7 @@ public class DirectSchedulerFactoryTest extends TestCase {
         assertEquals("TestPlugin|MyScheduler|start|shutdown", result.toString());
     }
 
-    public void testThreadName() throws Throwable {
+    void testThreadName() throws Throwable {
         DirectSchedulerFactory.getInstance().createVolatileScheduler(4);
         Scheduler scheduler = DirectSchedulerFactory.getInstance().getScheduler();
         QuartzScheduler qs = getField(scheduler, "sched");
@@ -78,7 +80,6 @@ public class DirectSchedulerFactoryTest extends TestCase {
     <T> T getField(Object obj, String fieldName) throws Exception {
         Field field = obj.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
-        T result = (T)field.get(obj);
-        return result;
+        return (T)field.get(obj);
     }
 }

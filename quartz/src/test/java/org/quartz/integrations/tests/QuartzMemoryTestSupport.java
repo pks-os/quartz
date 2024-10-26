@@ -17,8 +17,8 @@
  */
 package org.quartz.integrations.tests;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
@@ -37,7 +37,7 @@ public class QuartzMemoryTestSupport {
     protected static final Logger LOG = LoggerFactory.getLogger(QuartzMemoryTestSupport.class);
     protected Scheduler scheduler;
 
-    @Before
+    @BeforeEach
     public void initSchedulerBeforeTest() throws Exception {
         Properties properties = createSchedulerProperties();
         SchedulerFactory sf = new StdSchedulerFactory(properties);
@@ -63,7 +63,7 @@ public class QuartzMemoryTestSupport {
         return properties;
     }
 
-    @After
+    @AfterEach
     public void initSchedulerAfterTest() throws Exception {
         LOG.info("Scheduler shutting down.");
         scheduler.shutdown(true);

@@ -21,7 +21,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.junit.jupiter.api.Test;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -97,8 +100,8 @@ public class SimpleTriggerTest extends SerializationTestSupport {
         assertEquals(targetSimpleTrigger.getJobDataMap(), deserializedSimpleTrigger.getJobDataMap());
         assertEquals(targetSimpleTrigger.getMisfireInstruction(), deserializedSimpleTrigger.getMisfireInstruction());
     }
-    
-    public void testUpdateAfterMisfire() {
+    @Test
+    void testUpdateAfterMisfire() {
         
         Calendar startTime = Calendar.getInstance();
         startTime.set(2005, Calendar.JULY, 5, 9, 0, 0);
@@ -117,8 +120,8 @@ public class SimpleTriggerTest extends SerializationTestSupport {
         assertEquals(endTime.getTime(), simpleTrigger.getEndTime());
         assertNull(simpleTrigger.getNextFireTime());
     }
-    
-    public void testGetFireTimeAfter() {
+    @Test
+    void testGetFireTimeAfter() {
         SimpleTriggerImpl simpleTrigger = new SimpleTriggerImpl();
 
         simpleTrigger.setStartTime(new Date(0));
@@ -128,8 +131,8 @@ public class SimpleTriggerTest extends SerializationTestSupport {
         Date fireTimeAfter = simpleTrigger.getFireTimeAfter(new Date(34));
         assertEquals(40, fireTimeAfter.getTime());
     }
-    
-    public void testClone() {
+    @Test
+    void testClone() {
         SimpleTriggerImpl simpleTrigger = new SimpleTriggerImpl();
         
         // Make sure empty sub-objects are cloned okay
@@ -155,11 +158,13 @@ public class SimpleTriggerTest extends SerializationTestSupport {
     }
     
     // NPE in equals()
-    public void testQuartz665() {
+    @Test
+    void testQuartz665() {
         new SimpleTriggerImpl().equals(new SimpleTriggerImpl());
     }
-    
-    public void testMisfireInstructionValidity() throws ParseException {
+
+    @Test
+    void testMisfireInstructionValidity() {
         SimpleTriggerImpl trigger = new SimpleTriggerImpl();
 
         try {

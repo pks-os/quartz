@@ -16,14 +16,14 @@
  */
 package org.quartz.integrations.tests;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.quartz.impl.matchers.GroupMatcher;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+
 
 import org.quartz.*;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
@@ -37,7 +37,7 @@ import static org.quartz.TriggerKey.triggerKey;
 public class QuartzMemoryPauseAndResumeTest extends QuartzMemoryTestSupport {
 
     @Test
-    public void testPauseAndResumeTriggers() throws Exception {
+    void testPauseAndResumeTriggers() throws Exception {
         JobDetail jobDetail = newJob(HelloJob.class)
                 .withIdentity("test")
                 .build();
@@ -65,7 +65,7 @@ public class QuartzMemoryPauseAndResumeTest extends QuartzMemoryTestSupport {
     }
 
     @Test
-    public void testResumeTriggersBeforeAddJob() throws Exception {
+    void testResumeTriggersBeforeAddJob() throws Exception {
         scheduler.pauseTriggers(GroupMatcher.triggerGroupEquals("abc"));
         scheduler.resumeTriggers(GroupMatcher.triggerGroupEquals("abc"));
 
@@ -96,7 +96,7 @@ public class QuartzMemoryPauseAndResumeTest extends QuartzMemoryTestSupport {
     }
 
     @Test
-    public void testPauseAndResumeJobs() throws Exception {
+    void testPauseAndResumeJobs() throws Exception {
         JobDetail jobDetail = newJob(HelloJob.class)
                 .withIdentity("test", "abc")
                 .build();
@@ -125,7 +125,7 @@ public class QuartzMemoryPauseAndResumeTest extends QuartzMemoryTestSupport {
 
 
     @Test
-    public void testResumeJobsBeforeAddJobs() throws Exception {
+    void testResumeJobsBeforeAddJobs() throws Exception {
         scheduler.pauseJobs(GroupMatcher.jobGroupEquals("abc"));
         scheduler.resumeJobs(GroupMatcher.jobGroupEquals("abc"));
 

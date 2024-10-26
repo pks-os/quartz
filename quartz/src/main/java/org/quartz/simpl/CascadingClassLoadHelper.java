@@ -18,7 +18,6 @@
 
 package org.quartz.simpl;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.net.URL;
 import java.io.InputStream;
@@ -94,7 +93,6 @@ public class CascadingClassLoadHelper implements ClassLoadHelper {
      * Return the class with the given name.
      */
     public Class<?> loadClass(String name) throws ClassNotFoundException {
-
         if (bestCandidate != null) {
             try {
                 return bestCandidate.loadClass(name);
@@ -104,33 +102,22 @@ public class CascadingClassLoadHelper implements ClassLoadHelper {
         }
 
         Throwable throwable = null;
-        Class<?> clazz = null;
-        ClassLoadHelper loadHelper = null;
 
-        Iterator<ClassLoadHelper> iter = loadHelpers.iterator();
-        while (iter.hasNext()) {
-            loadHelper = iter.next();
-
+        for (ClassLoadHelper helper : loadHelpers) {
             try {
-                clazz = loadHelper.loadClass(name);
-                break;
+                Class<?> clazz = helper.loadClass(name);
+                bestCandidate = helper;
+                return clazz;
             } catch (Throwable t) {
                 throwable = t;
             }
         }
 
-        if (clazz == null) {
-            if (throwable instanceof ClassNotFoundException) {
-                throw (ClassNotFoundException)throwable;
-            } 
-            else {
-                throw new ClassNotFoundException( String.format( "Unable to load class %s by any known loaders.", name), throwable);
-            } 
+        if (throwable instanceof ClassNotFoundException) {
+            throw (ClassNotFoundException) throwable;
+        } else {
+            throw new ClassNotFoundException( String.format( "Unable to load class %s by any known loaders.", name), throwable);
         }
-
-        bestCandidate = loadHelper;
-
-        return clazz;
     }
 
     @SuppressWarnings("unchecked")
@@ -161,9 +148,8 @@ public class CascadingClassLoadHelper implements ClassLoadHelper {
 
         ClassLoadHelper loadHelper = null;
 
-        Iterator<ClassLoadHelper> iter = loadHelpers.iterator();
-        while (iter.hasNext()) {
-            loadHelper = iter.next();
+        for (ClassLoadHelper helper : loadHelpers) {
+            loadHelper = helper;
 
             result = loadHelper.getResource(name);
             if (result != null) {
@@ -197,9 +183,8 @@ public class CascadingClassLoadHelper implements ClassLoadHelper {
 
         ClassLoadHelper loadHelper = null;
 
-        Iterator<ClassLoadHelper> iter = loadHelpers.iterator();
-        while (iter.hasNext()) {
-            loadHelper = iter.next();
+        for (ClassLoadHelper helper : loadHelpers) {
+            loadHelper = helper;
 
             result = loadHelper.getResourceAsStream(name);
             if (result != null) {

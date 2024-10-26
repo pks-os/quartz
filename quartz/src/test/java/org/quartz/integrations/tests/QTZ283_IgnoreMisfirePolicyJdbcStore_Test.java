@@ -16,7 +16,7 @@
  */
 package org.quartz.integrations.tests;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.quartz.DateBuilder;
 import org.quartz.JobDetail;
 import org.quartz.SimpleTrigger;
@@ -30,7 +30,8 @@ import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;

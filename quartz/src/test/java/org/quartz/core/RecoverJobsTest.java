@@ -16,8 +16,8 @@
  */
 package org.quartz.core;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.quartz.impl.DirectSchedulerFactory;
 import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities;
 import org.quartz.impl.jdbcjobstore.JobStoreTX;
@@ -35,13 +35,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * @author https://github.com/eugene-goroschenya
  */
 public class RecoverJobsTest {
 
     @Test
-    public void testRecoveringRepeatJobWhichIsFiredAndMisfiredAtTheSameTime() throws SchedulerException, SQLException, InterruptedException {
+    void testRecoveringRepeatJobWhichIsFiredAndMisfiredAtTheSameTime() throws SchedulerException, SQLException, InterruptedException {
         String dsName = "recoverJobsTest";
         JdbcQuartzTestUtilities.createDatabase(dsName);
         try {
@@ -86,12 +89,12 @@ public class RecoverJobsTest {
                 ResultSet rs1 = st.executeQuery("SELECT TRIGGER_STATE from QRTZ_TRIGGERS");
                 rs1.next();
                 // check that trigger is blocked after fail over situation
-                Assert.assertEquals("BLOCKED", rs1.getString(1));
+                assertEquals("BLOCKED", rs1.getString(1));
 
                 ResultSet rs2 = st.executeQuery("SELECT count(*) from QRTZ_FIRED_TRIGGERS");
                 rs2.next();
                 // check that fired trigger remains after fail over situation
-                Assert.assertEquals(1, rs2.getLong(1));
+                assertEquals(1, rs2.getLong(1));
                 st.close();
             } finally {
                 conn.close();
@@ -125,7 +128,7 @@ public class RecoverJobsTest {
             // wait job
             recovery.shutdown(true);
 
-            Assert.assertTrue(isJobRecovered.get());
+           assertTrue(isJobRecovered.get());
         } finally {
             JdbcQuartzTestUtilities.destroyDatabase(dsName);
         }

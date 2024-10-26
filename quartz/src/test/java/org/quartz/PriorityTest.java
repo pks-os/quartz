@@ -20,17 +20,20 @@ import java.util.Calendar;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
-import junit.framework.TestCase;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.quartz.spi.MutableTrigger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Test Trigger priority support.
  */
-public class PriorityTest extends TestCase {
+class PriorityTest  {
 
     private static CountDownLatch latch;
     private static StringBuffer result;
@@ -44,14 +47,15 @@ public class PriorityTest extends TestCase {
         }
     }
 
-    @Override
-    protected void setUp() throws Exception {
+    @BeforeEach
+    protected void setUp() {
         PriorityTest.latch = new CountDownLatch(2);
         PriorityTest.result = new StringBuffer();
     }
 
     @SuppressWarnings("deprecation")
-    public void testSameDefaultPriority() throws Exception {
+    @Test
+    void testSameDefaultPriority() throws Exception {
         Properties config = new Properties();
         config.setProperty("org.quartz.threadPool.threadCount", "1");
         config.setProperty("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
@@ -81,7 +85,8 @@ public class PriorityTest extends TestCase {
     }
 
     @SuppressWarnings("deprecation")
-    public void testDifferentPriority() throws Exception {
+    @Test
+    void testDifferentPriority() throws Exception {
         Properties config = new Properties();
         config.setProperty("org.quartz.threadPool.threadCount", "1");
         config.setProperty("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");

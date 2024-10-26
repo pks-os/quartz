@@ -18,19 +18,17 @@ package org.quartz.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
+
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -68,7 +66,7 @@ public class RemoteMBeanSchedulerTest {
     private Scheduler scheduler;
     private RemoteMBeanScheduler remoteScheduler;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         Properties props = new Properties();
         props.put("org.quartz.scheduler.instanceName", "TestScheduler");
@@ -90,13 +88,13 @@ public class RemoteMBeanSchedulerTest {
         remoteScheduler = new TestRemoteScheduler(objectName);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SchedulerException {
         scheduler.shutdown();
     }
 
     @Test
-    public void testJMXAttributesAccess() throws Exception {
+    void testJMXAttributesAccess() throws Exception {
         assertThat(remoteScheduler.getCalendarNames(), equalTo(scheduler.getCalendarNames()));
         assertThat(remoteScheduler.getJobGroupNames(), equalTo(scheduler.getJobGroupNames()));
         assertThat(remoteScheduler.getPausedTriggerGroups(), equalTo(scheduler.getPausedTriggerGroups()));
@@ -106,30 +104,30 @@ public class RemoteMBeanSchedulerTest {
     }
 
     @Test
-    public void testSchedulerMetaData() throws Exception{
+    void testSchedulerMetaData() throws Exception {
         SchedulerMetaData remoteSchedulerMetaData = remoteScheduler.getMetaData();
         SchedulerMetaData metaData = scheduler.getMetaData();
         assertThat(remoteSchedulerMetaData.getSchedulerName(), equalTo(metaData.getSchedulerName()));
         assertThat(remoteSchedulerMetaData.getSchedulerInstanceId(), equalTo(metaData.getSchedulerInstanceId()));
         assertThat(remoteSchedulerMetaData.isInStandbyMode(), is(metaData.isInStandbyMode()));
-        assertThat(remoteSchedulerMetaData.getSchedulerClass(), equalTo((Class)TestRemoteScheduler.class));
+        assertThat(remoteSchedulerMetaData.getSchedulerClass(), equalTo((Class) TestRemoteScheduler.class));
         assertThat(remoteSchedulerMetaData.isSchedulerRemote(), is(true));
         assertThat(remoteSchedulerMetaData.isStarted(), is(false)); // information not available through JMX
         assertThat(remoteSchedulerMetaData.isInStandbyMode(), is(metaData.isInStandbyMode()));
         assertThat(remoteSchedulerMetaData.isShutdown(), is(metaData.isShutdown()));
         assertThat(remoteSchedulerMetaData.getRunningSince(), nullValue()); // Information not available through JMX
         assertThat(remoteSchedulerMetaData.getNumberOfJobsExecuted(), is(metaData.getNumberOfJobsExecuted()));
-        assertThat(remoteSchedulerMetaData.getJobStoreClass(), equalTo((Class)metaData.getJobStoreClass()));
+        assertThat(remoteSchedulerMetaData.getJobStoreClass(), equalTo((Class) metaData.getJobStoreClass()));
         assertThat(remoteSchedulerMetaData.isJobStoreSupportsPersistence(), is(false)); // Information not available through JMX
         assertThat(remoteSchedulerMetaData.isJobStoreClustered(), is(false)); // Information not available through JMX
-        assertThat(remoteSchedulerMetaData.getThreadPoolClass(), equalTo((Class)metaData.getThreadPoolClass()));
+        assertThat(remoteSchedulerMetaData.getThreadPoolClass(), equalTo((Class) metaData.getThreadPoolClass()));
         assertThat(remoteSchedulerMetaData.getThreadPoolSize(), is(metaData.getThreadPoolSize()));
         assertThat(remoteSchedulerMetaData.getVersion(), equalTo(metaData.getVersion()));
-        assertThat(remoteSchedulerMetaData.getJobStoreClass(), equalTo((Class)metaData.getJobStoreClass()));
+        assertThat(remoteSchedulerMetaData.getJobStoreClass(), equalTo((Class) metaData.getJobStoreClass()));
     }
 
     @Test
-    public void testCalendarOperations() throws Exception {
+    void testCalendarOperations() throws Exception {
         try {
             remoteScheduler.addCalendar("testCal", new BaseCalendar(), true, true);
             fail("Method was not exposed in MBean API");
@@ -149,7 +147,7 @@ public class RemoteMBeanSchedulerTest {
     }
 
     @Test
-    public void testTriggerOperations() throws Exception {
+    void testTriggerOperations() throws Exception {
         TriggerKey triggerKey = new TriggerKey(TRIGGER_KEY, GROUP_KEY);
         GroupMatcher<TriggerKey> groupMatcher = GroupMatcher.triggerGroupEquals(GROUP_KEY);
 
@@ -203,7 +201,7 @@ public class RemoteMBeanSchedulerTest {
     }
 
     @Test
-    public void testJobOperations() throws Exception {
+    void testJobOperations() throws Exception {
 
         JobKey job2 = new JobKey("job2", GROUP_KEY);
         JobDetail job2Detail = newJob(HelloJob.class).withIdentity(job2).storeDurably().build();
@@ -218,7 +216,6 @@ public class RemoteMBeanSchedulerTest {
         } catch (SchedulerException e) {
             // expected
         }
-
 
 
         remoteScheduler.pauseJob(job2);
@@ -288,7 +285,7 @@ public class RemoteMBeanSchedulerTest {
     }
 
     @Test
-    public void testLifecycleOperations() throws SchedulerException {
+    void testLifecycleOperations() throws SchedulerException {
         try {
             remoteScheduler.startDelayed(60);
             fail("Method was not exposed in MBean API");
@@ -323,13 +320,13 @@ public class RemoteMBeanSchedulerTest {
     }
 
     @Test
-    public void testJMXOperations() throws Exception {
+    void testJMXOperations() throws Exception {
         remoteScheduler.clear();
         assertThat(remoteScheduler.getJobGroupNames().isEmpty(), is(true));
     }
 
     @Test
-    public void testUnsupportedMethods() {
+    void testUnsupportedMethods() {
         try {
             remoteScheduler.getListenerManager();
             fail("Operation should not be supported");
@@ -347,7 +344,7 @@ public class RemoteMBeanSchedulerTest {
     }
 
     @Test
-    public void testListBrokenAttributes() throws Exception {
+    void testListBrokenAttributes() throws Exception {
         try {
             remoteScheduler.getContext();
             fail("Method was not exposed in MBean API");
@@ -398,7 +395,7 @@ public class RemoteMBeanSchedulerTest {
         protected AttributeList getAttributes(String[] attributes) throws SchedulerException {
             try {
                 return mBeanServer.getAttributes(objectName, attributes);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new SchedulerException(e);
             }
 

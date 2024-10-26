@@ -261,7 +261,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
     public int getIntFromString(String key) {
         Object obj = get(key);
 
-        return new Integer((String) obj);
+        return Integer.parseInt((String) obj);
     }
 
     /**
@@ -293,7 +293,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
     public Integer getIntegerFromString(String key) {
         Object obj = get(key);
 
-        return new Integer((String) obj);
+        return Integer.valueOf((String) obj);
     }
 
     /**
@@ -414,7 +414,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
     public Double getDoubleFromString(String key) {
         Object obj = get(key);
 
-        return new Double((String) obj);
+        return Double.valueOf((String) obj);
     }
 
     /**
@@ -428,7 +428,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
     public float getFloatValueFromString(String key) {
         Object obj = get(key);
 
-        return new Float((String) obj);
+        return Float.parseFloat((String) obj);
     }
 
     /**
@@ -460,7 +460,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
     public Float getFloatFromString(String key) {
         Object obj = get(key);
 
-        return new Float((String) obj);
+        return Float.valueOf((String) obj);
     }
 
     /**
@@ -474,7 +474,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
     public long getLongValueFromString(String key) {
         Object obj = get(key);
 
-        return new Long((String) obj);
+        return Long.parseLong((String) obj);
     }
 
     /**
@@ -506,6 +506,6 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
     public Long getLongFromString(String key) {
         Object obj = get(key);
 
-        return new Long((String) obj);
+        return Long.valueOf((String) obj);
     }
 }

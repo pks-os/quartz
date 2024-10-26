@@ -16,20 +16,24 @@
  */
 package org.quartz.utils;
 
+import org.junit.jupiter.api.Test;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * @author Alex Snaps
  */
-public class ClassUtilsTest extends TestCase {
+public class ClassUtilsTest  {
 
-    public void testIsAnnotationPresentOnSuperClass() throws Exception {
+    @Test
+    void testIsAnnotationPresentOnSuperClass() throws Exception {
         assertTrue(ClassUtils.isAnnotationPresent(BaseJob.class, DisallowConcurrentExecution.class));
         assertFalse(ClassUtils.isAnnotationPresent(BaseJob.class, PersistJobDataAfterExecution.class));
         assertTrue(ClassUtils.isAnnotationPresent(ExtendedJob.class, DisallowConcurrentExecution.class));

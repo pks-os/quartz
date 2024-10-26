@@ -19,9 +19,9 @@ package org.quartz.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
@@ -30,6 +30,8 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.listeners.BroadcastSchedulerListener;
 import org.quartz.listeners.SchedulerListenerSupport;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Test that verifies that schedulerStarting() is called before the schedulerStarted()
  *  
@@ -37,7 +39,7 @@ import org.quartz.listeners.SchedulerListenerSupport;
  * @author adahanne
  *
  */
-public class QTZ212_SchedulerListener_Test {
+class QTZ212_SchedulerListener_Test {
 
 	private static final String SCHEDULER_STARTED = "SCHEDULER_STARTED";
 	private static final String SCHEDULER_STARTING = "SCHEDULER_STARTING";
@@ -45,21 +47,21 @@ public class QTZ212_SchedulerListener_Test {
 	
 	
 	@Test
-	public void stdSchedulerCallsStartingBeforeStartedTest() throws SchedulerException {
+	void stdSchedulerCallsStartingBeforeStartedTest() throws SchedulerException {
 		SchedulerFactory sf = new StdSchedulerFactory();
 		Scheduler sched = sf.getScheduler();
 		sched.getListenerManager().addSchedulerListener(new TestSchedulerListener());
 		sched.start();
 		
-		Assert.assertEquals(SCHEDULER_STARTING,methodsCalledInSchedulerListener.get(0));
-		Assert.assertEquals(SCHEDULER_STARTED,methodsCalledInSchedulerListener.get(1));
+		assertEquals(SCHEDULER_STARTING,methodsCalledInSchedulerListener.get(0));
+		assertEquals(SCHEDULER_STARTED,methodsCalledInSchedulerListener.get(1));
 		
 		sched.shutdown();
 	}
 	
 	
 	@Test
-	public void broadcastSchedulerListenerCallsSchedulerStartingOnAllItsListeners() throws SchedulerException {
+	void broadcastSchedulerListenerCallsSchedulerStartingOnAllItsListeners() throws SchedulerException {
 		
 		methodsCalledInSchedulerListener =  new ArrayList<String>();
 		SchedulerFactory sf = new StdSchedulerFactory();
@@ -70,8 +72,8 @@ public class QTZ212_SchedulerListener_Test {
 		sched.getListenerManager().addSchedulerListener(new BroadcastSchedulerListener(listeners));
 		sched.start();
 		
-		Assert.assertEquals(SCHEDULER_STARTING,methodsCalledInSchedulerListener.get(0));
-		Assert.assertEquals(SCHEDULER_STARTED,methodsCalledInSchedulerListener.get(1));
+		assertEquals(SCHEDULER_STARTING,methodsCalledInSchedulerListener.get(0));
+		assertEquals(SCHEDULER_STARTED,methodsCalledInSchedulerListener.get(1));
 		
 		sched.shutdown();
 	}

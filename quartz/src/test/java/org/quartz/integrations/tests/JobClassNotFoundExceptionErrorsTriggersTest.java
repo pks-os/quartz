@@ -26,15 +26,15 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.hamcrest.core.Is;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
-import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.JobExecutionException;
@@ -92,7 +92,7 @@ public class JobClassNotFoundExceptionErrorsTriggersTest extends QuartzDatabaseT
     }
 
     @Test
-    public void testJobClassNotFoundDoesntBlock() throws Exception {
+    void testJobClassNotFoundDoesntBlock() throws Exception {
         CyclicBarrier barrier = new CyclicBarrier(2);
         scheduler.getContext().put(BARRIER_KEY, barrier);
 

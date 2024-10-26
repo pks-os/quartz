@@ -6,8 +6,8 @@ import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.SchedulerFactory;
@@ -16,6 +16,8 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.jdbcjobstore.LockException;
 import org.quartz.impl.jdbcjobstore.StdRowLockSemaphore;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class StdRowLockSemaphoreTest extends QuartzDatabaseTestSupport {
   static volatile boolean myLockInvoked = false;
@@ -63,7 +65,7 @@ public class StdRowLockSemaphoreTest extends QuartzDatabaseTestSupport {
   }
 
   @Test
-  public void testDefaultStdRowLockSemaphore() throws Exception {
+  void testDefaultStdRowLockSemaphore() throws Exception {
     initSchedulerBeforeTest(createDefaultProperties());
 
     JobDetail job1 = JobBuilder.newJob(HelloJob.class).withIdentity("job1").
@@ -77,13 +79,13 @@ public class StdRowLockSemaphoreTest extends QuartzDatabaseTestSupport {
 
     latch.await(1L, TimeUnit.MINUTES);
 
-    Assert.assertThat(myLockInvoked, Matchers.is(true));
-    Assert.assertThat(maxRetry, Matchers.is(3));
-    Assert.assertThat(retryPeriod, Matchers.is(1000L));
+    assertThat(myLockInvoked, Matchers.is(true));
+    assertThat(maxRetry, Matchers.is(3));
+    assertThat(retryPeriod, Matchers.is(1000L));
   }
 
   @Test
-  public void testCustomStdRowLockSemaphore() throws Exception {
+  void testCustomStdRowLockSemaphore() throws Exception {
     initSchedulerBeforeTest(createMyLockProperties());
 
     JobDetail job1 = JobBuilder.newJob(HelloJob.class).withIdentity("job1").
@@ -97,8 +99,8 @@ public class StdRowLockSemaphoreTest extends QuartzDatabaseTestSupport {
 
     latch.await(1L, TimeUnit.MINUTES);
 
-    Assert.assertThat(myLockInvoked, Matchers.is(true));
-    Assert.assertThat(maxRetry, Matchers.is(7));
-    Assert.assertThat(retryPeriod, Matchers.is(3000L));
+    assertThat(myLockInvoked, Matchers.is(true));
+    assertThat(maxRetry, Matchers.is(7));
+    assertThat(retryPeriod, Matchers.is(3000L));
   }
 }
