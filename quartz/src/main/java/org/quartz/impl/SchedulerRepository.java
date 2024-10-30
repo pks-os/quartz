@@ -45,13 +45,11 @@ public class SchedulerRepository {
 
     private final HashMap<String, Scheduler> schedulers;
 
-    private static SchedulerRepository inst;
-
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     * 
+     *
      * Constructors.
-     * 
+     *
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
@@ -59,25 +57,24 @@ public class SchedulerRepository {
         schedulers = new HashMap<>();
     }
 
+    private static class Holder {
+        private static final SchedulerRepository INSTANCE = new SchedulerRepository();
+    }
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     * 
+     *
      * Interface.
-     * 
+     *
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
     public static synchronized SchedulerRepository getInstance() {
-        if (inst == null) {
-            inst = new SchedulerRepository();
-        }
-
-        return inst;
+        return Holder.INSTANCE;
     }
 
     public synchronized void bind(Scheduler sched) throws SchedulerException {
 
-        if ((Scheduler) schedulers.get(sched.getSchedulerName()) != null) {
+        if (schedulers.get(sched.getSchedulerName()) != null) {
             throw new SchedulerException("Scheduler with name '"
                     + sched.getSchedulerName() + "' already exists.");
         }
