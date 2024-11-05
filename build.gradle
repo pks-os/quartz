@@ -97,7 +97,10 @@ allprojects {
                         "Implementation-Version": project.version,
                         "Built-By": System.getProperty("user.name"),
                         "Built-JDK": System.getProperty("java.version"),
-                        "Automatic-Module-Name": 'org.quartz'
+                        "Automatic-Module-Name": 'org.quartz',
+                        "-removeheaders": 'Private-Package',
+                        "Export-Package": 'org.quartz.*',
+                        "Import-Package": '*;resolution:=optional'
                 )
             }
         }
