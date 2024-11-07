@@ -19,7 +19,6 @@ package org.quartz.impl.jdbcjobstore;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.startsWith;
-;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

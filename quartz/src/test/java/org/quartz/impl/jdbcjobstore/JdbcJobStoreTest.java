@@ -20,42 +20,50 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.quartz.AbstractJobStoreTest;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 import org.quartz.spi.JobStore;
 
 public class JdbcJobStoreTest extends AbstractJobStoreTest {
 
-	private HashMap<String, JobStoreSupport> stores = new HashMap<String, JobStoreSupport>();
-	
-    void testNothing() {
-        // nothing
+    private HashMap<String, JobStoreSupport> stores = new HashMap<String, JobStoreSupport>();
+
+    protected DatabaseType getDatabaseType() {
+        return DatabaseType.DERBY;
+    }
+
+    private String name(String prefix) {
+        return prefix + "_" + getDatabaseType().name();
     }
 
     @Override
-    protected JobStore createJobStore(String name) {
+    protected JobStore createJobStore(String prefix) {
+        String name = name(prefix);
         try {
-            JdbcQuartzTestUtilities.createDatabase(name);
+            JdbcQuartzTestUtilities.createDatabase(name, getDatabaseType());
             JobStoreTX jdbcJobStore = new JobStoreTX();
             jdbcJobStore.setDataSource(name);
             jdbcJobStore.setTablePrefix("QRTZ_");
-            jdbcJobStore.setInstanceId("SINGLE_NODE_TEST");
+            jdbcJobStore.setInstanceId("SINGLE_NODE_TEST_" + getDatabaseType().name());
             jdbcJobStore.setInstanceName(name);
             jdbcJobStore.setUseDBLocks(true);
+            jdbcJobStore.setDriverDelegateClass(getDatabaseType().getDelegateClassName());
 
             stores.put(name, jdbcJobStore);
-            
+
             return jdbcJobStore;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new AssertionError(e);
         }
     }
 
     @Override
-    protected void destroyJobStore(String name) {
+    protected void destroyJobStore(String prefix) {
+        String name = name(prefix);
         try {
-        	JobStoreSupport jdbcJobStore = stores.remove(name);
-        	jdbcJobStore.shutdown();
-        	
-            JdbcQuartzTestUtilities.destroyDatabase(name);
+            JobStoreSupport jdbcJobStore = stores.remove(name);
+            jdbcJobStore.shutdown();
+
+            JdbcQuartzTestUtilities.destroyDatabase(name, getDatabaseType());
         } catch (SQLException e) {
             throw new AssertionError(e);
         }

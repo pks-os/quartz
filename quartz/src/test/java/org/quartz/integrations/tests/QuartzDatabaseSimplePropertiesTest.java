@@ -36,7 +36,7 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-public class QuartzDatabaseSimplePropertiesTest extends QuartzDatabaseTestSupport {
+public class QuartzDatabaseSimplePropertiesTest extends QuartzDerbyTestSupport {
 
 	@Override
 	protected Properties createSchedulerProperties() {

@@ -37,6 +37,7 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.DirectSchedulerFactory;
 import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities;
 import org.quartz.impl.jdbcjobstore.JobStoreTX;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 import org.quartz.integrations.tests.HelloJob;
 import org.quartz.listeners.JobListenerSupport;
 import org.quartz.simpl.SimpleThreadPool;
@@ -61,7 +62,7 @@ class QTZ385Test {
 
   @Test
   void testShutdownOrdering() throws SchedulerException, SQLException, InterruptedException, BrokenBarrierException {
-    JdbcQuartzTestUtilities.createDatabase("testShutdownOrdering");
+    JdbcQuartzTestUtilities.createDatabase("testShutdownOrdering", DatabaseType.DERBY);
     try {
       final CyclicBarrier barrier = new CyclicBarrier(2);
       final JobStoreTX realJobStore = new JobStoreTX();
@@ -131,7 +132,7 @@ class QTZ385Test {
         recovery.shutdown(true);
       }
     } finally {
-      JdbcQuartzTestUtilities.destroyDatabase("testShutdownOrdering");
+        JdbcQuartzTestUtilities.destroyDatabase("testShutdownOrdering", DatabaseType.DERBY);
     }
   }
   

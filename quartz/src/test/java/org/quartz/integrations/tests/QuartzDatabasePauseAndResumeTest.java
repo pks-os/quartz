@@ -34,7 +34,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 /**
  * Created by zemian on 10/25/16.
  */
-public class QuartzDatabasePauseAndResumeTest extends QuartzDatabaseTestSupport {
+public class QuartzDatabasePauseAndResumeTest extends QuartzDerbyTestSupport {
 
     @Test
     void testPauseAndResumeTriggers() throws Exception {

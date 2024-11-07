@@ -7,6 +7,7 @@ import org.quartz.impl.DirectSchedulerFactory;
 import org.quartz.impl.SchedulerRepository;
 import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities;
 import org.quartz.impl.jdbcjobstore.JobStoreTX;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 import org.quartz.simpl.SimpleThreadPool;
 import org.quartz.utils.ConnectionProvider;
 import org.quartz.utils.DBConnectionManager;
@@ -156,7 +157,7 @@ public class FlakyJdbcSchedulerTest extends AbstractSchedulerTest {
         private FlakyConnectionProvider(String name) throws SQLException {
             this.delegateName = "delegate_" + name;
             this.safeThread = Thread.currentThread();
-            JdbcQuartzTestUtilities.createDatabase(delegateName);
+            JdbcQuartzTestUtilities.createDatabase(delegateName, DatabaseType.DERBY);
         }
 
         @Override
@@ -176,8 +177,8 @@ public class FlakyJdbcSchedulerTest extends AbstractSchedulerTest {
         @Override
         public void shutdown() throws SQLException {
             DBConnectionManager.getInstance().shutdown(delegateName);
-            JdbcQuartzTestUtilities.destroyDatabase(delegateName);
-            JdbcQuartzTestUtilities.shutdownDatabase();
+            JdbcQuartzTestUtilities.destroyDatabase(delegateName, DatabaseType.DERBY);
+            JdbcQuartzTestUtilities.shutdownDatabase(delegateName, DatabaseType.DERBY);
         }
 
         @Override

@@ -36,8 +36,8 @@ import java.util.Properties;
  *
  * @author Zemian Deng
  */
-public class QuartzDatabaseTestSupport extends QuartzMemoryTestSupport {
-    protected static final Logger LOG = LoggerFactory.getLogger(QuartzDatabaseTestSupport.class);
+public class QuartzDerbyTestSupport extends QuartzMemoryTestSupport {
+    protected static final Logger LOG = LoggerFactory.getLogger(QuartzDerbyTestSupport.class);
     protected static NetworkServerControl derbyServer;
 
     @BeforeAll

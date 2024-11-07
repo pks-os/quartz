@@ -16,7 +16,6 @@
  */
 package org.quartz.impl.jdbcjobstore;
 
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.quartz.*;
 import org.quartz.impl.DirectSchedulerFactory;
 import org.quartz.impl.SchedulerRepository;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 import org.quartz.simpl.SimpleThreadPool;
 import org.quartz.utils.DBConnectionManager;
 import org.slf4j.Logger;
@@ -45,7 +45,7 @@ public class DeleteNonExistsJobTest {
 
     @BeforeAll
     public static void beforeClass() throws Exception {
-        JdbcQuartzTestUtilities.createDatabase(DB_NAME);
+        JdbcQuartzTestUtilities.createDatabase(DB_NAME, DatabaseType.DERBY);
     }
 
     @BeforeEach
@@ -55,9 +55,10 @@ public class DeleteNonExistsJobTest {
         jobStore.setDataSource(DB_NAME);
         jobStore.setTablePrefix("QRTZ_");
         jobStore.setInstanceId("AUTO");
-        DirectSchedulerFactory.getInstance().createScheduler(SCHEDULER_NAME, "AUTO", new SimpleThreadPool(4, Thread.NORM_PRIORITY), jobStore);
+        DirectSchedulerFactory.getInstance().createScheduler(SCHEDULER_NAME, "AUTO",
+                new SimpleThreadPool(4, Thread.NORM_PRIORITY), jobStore);
         scheduler = SchedulerRepository.getInstance().lookup(SCHEDULER_NAME);
-        //scheduler.start(); // Do not start scheduler to produce the defect case.
+        // scheduler.start(); // Do not start scheduler to produce the defect case.
     }
 
     private void resetDatabaseData() throws Exception {
@@ -97,8 +98,7 @@ public class DeleteNonExistsJobTest {
     void deleteJobDetailWithTrigger() throws Exception {
         JobDetail jobDetail = JobBuilder.newJob(TestJob.class).withIdentity("testjob2").storeDurably().build();
         Trigger trigger = TriggerBuilder.newTrigger().withIdentity("testjob2")
-                .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ?"))
-                .build();
+                .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ?")).build();
         scheduler.scheduleJob(jobDetail, trigger);
         modifyStoredJobClassName();
 
@@ -109,8 +109,7 @@ public class DeleteNonExistsJobTest {
     void deleteTrigger() throws Exception {
         JobDetail jobDetail = JobBuilder.newJob(TestJob.class).withIdentity("testjob3").storeDurably().build();
         Trigger trigger = TriggerBuilder.newTrigger().withIdentity("testjob3")
-                .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ?"))
-                .build();
+                .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ?")).build();
         scheduler.scheduleJob(jobDetail, trigger);
         modifyStoredJobClassName();
 
@@ -121,8 +120,7 @@ public class DeleteNonExistsJobTest {
     void replaceJobDetail() throws Exception {
         JobDetail jobDetail = JobBuilder.newJob(TestJob.class).withIdentity("testjob3").storeDurably().build();
         Trigger trigger = TriggerBuilder.newTrigger().withIdentity("testjob3")
-                .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ?"))
-                .build();
+                .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ?")).build();
         scheduler.scheduleJob(jobDetail, trigger);
         modifyStoredJobClassName();
 

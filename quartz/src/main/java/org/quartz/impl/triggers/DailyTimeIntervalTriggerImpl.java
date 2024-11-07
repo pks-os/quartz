@@ -389,7 +389,7 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
      *              if repeatInterval is &lt; 1
      */
     public void setRepeatInterval( int repeatInterval) {
-        if (repeatInterval < 0) {
+        if (repeatInterval < 1) {
             throw new IllegalArgumentException(
                     "Repeat interval must be >= 1");
         }

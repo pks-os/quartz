@@ -32,7 +32,7 @@ import static org.quartz.TriggerKey.triggerKey;
 /**
  * Created by zemian on 10/25/16.
  */
-public class JobDataMapStorageTest extends QuartzDatabaseTestSupport {
+public class JobDataMapStorageTest extends QuartzDerbyTestSupport {
     @Test
     void testJobDataMapDirtyFlag() throws Exception {
         JobDetail jobDetail = newJob(HelloJob.class)

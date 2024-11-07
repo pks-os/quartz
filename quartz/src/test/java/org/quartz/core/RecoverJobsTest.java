@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.quartz.impl.DirectSchedulerFactory;
 import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities;
 import org.quartz.impl.jdbcjobstore.JobStoreTX;
-
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 import org.quartz.*;
 import org.quartz.listeners.JobListenerSupport;
 import org.quartz.simpl.SimpleThreadPool;
@@ -46,7 +46,7 @@ public class RecoverJobsTest {
     @Test
     void testRecoveringRepeatJobWhichIsFiredAndMisfiredAtTheSameTime() throws SchedulerException, SQLException, InterruptedException {
         String dsName = "recoverJobsTest";
-        JdbcQuartzTestUtilities.createDatabase(dsName);
+        JdbcQuartzTestUtilities.createDatabase(dsName, DatabaseType.DERBY);
         try {
             final JobStoreTX jobStore = new JobStoreTX();
             jobStore.setDataSource(dsName);
@@ -130,7 +130,7 @@ public class RecoverJobsTest {
 
            assertTrue(isJobRecovered.get());
         } finally {
-            JdbcQuartzTestUtilities.destroyDatabase(dsName);
+            JdbcQuartzTestUtilities.destroyDatabase(dsName, DatabaseType.DERBY);
         }
     }
 

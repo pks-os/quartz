@@ -28,6 +28,8 @@ import java.util.Set;
 
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.quartz.DailyTimeIntervalScheduleBuilder;
 import org.quartz.DailyTimeIntervalTrigger;
 import org.quartz.DateBuilder;
@@ -623,7 +625,7 @@ class DailyTimeIntervalTriggerImplTest  {
         assertEquals("jobName", trigger.getJobName());
         assertEquals("jobGroup", trigger.getJobGroup());
         assertEquals(dateOf(8, 0, 0, 1, 1, 2012), trigger.getStartTime());
-      assertNull(trigger.getEndTime());
+        assertNull(trigger.getEndTime());
         assertEquals(new TimeOfDay(8, 0, 0), trigger.getStartTimeOfDay());
         assertEquals(new TimeOfDay(17, 0, 0), trigger.getEndTimeOfDay());
         assertEquals(IntervalUnit.HOUR, trigger.getRepeatIntervalUnit());
@@ -637,13 +639,20 @@ class DailyTimeIntervalTriggerImplTest  {
 
         assertEquals("triggerName", trigger.getName());
         assertEquals("triggerGroup", trigger.getGroup());
-      assertNull(trigger.getJobName());
+        assertNull(trigger.getJobName());
         assertEquals("DEFAULT", trigger.getJobGroup());
         assertEquals(dateOf(8, 0, 0, 1, 1, 2012), trigger.getStartTime());
-      assertNull(trigger.getEndTime());
+        assertNull(trigger.getEndTime());
         assertEquals(new TimeOfDay(8, 0, 0), trigger.getStartTimeOfDay());
         assertEquals(new TimeOfDay(17, 0, 0), trigger.getEndTimeOfDay());
         assertEquals(IntervalUnit.HOUR, trigger.getRepeatIntervalUnit());
         assertEquals(1, trigger.getRepeatInterval());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { Integer.MIN_VALUE, 0})
+    void testSetRepeatIntervalWithInvalidValues(int repeatInterval) {
+        DailyTimeIntervalTriggerImpl trigger = new DailyTimeIntervalTriggerImpl();
+        assertThrows(IllegalArgumentException.class, () -> trigger.setRepeatInterval(repeatInterval));
     }
 }

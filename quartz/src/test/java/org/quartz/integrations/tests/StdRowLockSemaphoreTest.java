@@ -19,7 +19,7 @@ import org.quartz.impl.jdbcjobstore.StdRowLockSemaphore;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class StdRowLockSemaphoreTest extends QuartzDatabaseTestSupport {
+public class StdRowLockSemaphoreTest extends QuartzDerbyTestSupport {
   static volatile boolean myLockInvoked = false;
   static volatile int maxRetry = -1;
   static volatile long retryPeriod = -1;

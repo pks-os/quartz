@@ -43,7 +43,7 @@ import org.quartz.simpl.CascadingClassLoadHelper;
 
 import static org.quartz.impl.StdSchedulerFactory.PROP_SCHED_CLASS_LOAD_HELPER_CLASS;
 
-public class JobClassNotFoundExceptionErrorsTriggersTest extends QuartzDatabaseTestSupport {
+public class JobClassNotFoundExceptionErrorsTriggersTest extends QuartzDerbyTestSupport {
 
     private static final String BARRIER_KEY = "BARRIER";
     

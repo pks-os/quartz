@@ -18,14 +18,14 @@ package org.quartz.integrations.tests;
 
 import java.sql.SQLException;
 import java.util.Properties;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.quartz.impl.jdbcjobstore.JdbcQuartzMSSQLUtilities;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 import org.quartz.impl.jdbcjobstore.MSSQLDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testcontainers.containers.MSSQLServerContainer;
-import org.testcontainers.utility.DockerImageName;
 
 /**
  * A base class to support database (MSSQL) scheduler integration testing. Each
@@ -37,17 +37,14 @@ import org.testcontainers.utility.DockerImageName;
  */
 public class QuartzMSSQLTestSupport extends QuartzMemoryTestSupport {
     protected static final Logger LOG = LoggerFactory.getLogger(QuartzMSSQLTestSupport.class);
-    static MSSQLServerContainer<?> mssqlserver = new MSSQLServerContainer(
-            DockerImageName.parse(MSSQLServerContainer.IMAGE).withTag("latest")).acceptLicense();
+    
+    private static final DatabaseType DATABASE_TYPE = DatabaseType.MSSQL;
 
     @BeforeAll
     public static void initialize() throws Exception {
-        LOG.info("Starting MSSQL database.");
-        mssqlserver.start();
-        LOG.info("Database started.");
         try {
             LOG.info("Creating Database tables for Quartz.");
-            JdbcQuartzMSSQLUtilities.createDatabase(mssqlserver);
+            JdbcQuartzTestUtilities.createDatabase(DATABASE_TYPE.name(), DATABASE_TYPE);
             LOG.info("Database tables created.");
         } catch (SQLException e) {
             throw new Exception("Failed to create Quartz tables.", e);
@@ -56,7 +53,7 @@ public class QuartzMSSQLTestSupport extends QuartzMemoryTestSupport {
 
     @AfterAll
     public static void shutdownDb() throws Exception {
-        mssqlserver.stop();
+        JdbcQuartzTestUtilities.shutdownDatabase(DATABASE_TYPE.name(),DATABASE_TYPE);
         LOG.info("Database shutdown.");
     }
 
@@ -70,17 +67,11 @@ public class QuartzMSSQLTestSupport extends QuartzMemoryTestSupport {
         properties.put("org.quartz.threadPool.threadPriority", "5");
         properties.put("org.quartz.jobStore.misfireThreshold", "10000");
         properties.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
-        properties.put("org.quartz.jobStore.driverDelegateClass", MSSQLDelegate.class.getName());
+        properties.put("org.quartz.jobStore.driverDelegateClass", DATABASE_TYPE.getDelegateClassName());
         properties.put("org.quartz.jobStore.useProperties", "true");
-        properties.put("org.quartz.jobStore.dataSource", "myDS");
+        properties.put("org.quartz.jobStore.dataSource", DATABASE_TYPE.name());
         properties.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
         properties.put("org.quartz.jobStore.isClustered", "false");
-        properties.put("org.quartz.dataSource.myDS.driver", mssqlserver.getDriverClassName());
-        properties.put("org.quartz.dataSource.myDS.URL", mssqlserver.getJdbcUrl());
-        properties.put("org.quartz.dataSource.myDS.user", mssqlserver.getUsername());
-        properties.put("org.quartz.dataSource.myDS.password", mssqlserver.getPassword());
-        properties.put("org.quartz.dataSource.myDS.maxConnections", "5");
-        properties.put("org.quartz.dataSource.myDS.provider", "hikaricp");
         return properties;
     }
 }

@@ -23,7 +23,7 @@ import org.hamcrest.Matchers;
 
 import org.junit.jupiter.api.Test;
 import org.quartz.integrations.tests.JdbcQuartzDerbyUtilities;
-import org.quartz.integrations.tests.QuartzDatabaseTestSupport;
+import org.quartz.integrations.tests.QuartzDerbyTestSupport;
 
 import java.util.Properties;
 
@@ -32,7 +32,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * A integration test to ensure PoolConnectionProvider is working properly.
  */
-public class C3p0PoolingConnectionProviderTest extends QuartzDatabaseTestSupport {
+public class C3p0PoolingConnectionProviderTest extends QuartzDerbyTestSupport {
     boolean testConnectionProviderClass = false;
 
     @Test

@@ -37,7 +37,7 @@ import static org.quartz.integrations.tests.TrackingJob.SCHEDULED_TIMES_KEY;
  * A integration test for Quartz Database Scheduler with Cron Trigger.
  * @author Zemian Deng
  */
-public class QuartzDatabaseCronTriggerTest extends QuartzDatabaseTestSupport {
+public class QuartzDerbyCronTriggerTest extends QuartzDerbyTestSupport {
     @Test
     void testCronRepeatCount() throws Exception {
         CronTrigger trigger = TriggerBuilder.newTrigger()

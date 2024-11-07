@@ -1,7 +1,10 @@
 package org.quartz.xml;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.repeatHourlyForever;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -19,18 +22,25 @@ import java.util.TimeZone;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
-
-import org.hamcrest.Matchers;
-
-
-
-
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.Job;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
+import org.quartz.ObjectAlreadyExistsException;
+import org.quartz.Scheduler;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.DirectSchedulerFactory;
 import org.quartz.impl.SchedulerRepository;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 import org.quartz.impl.jdbcjobstore.JobStoreTX;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.simpl.CascadingClassLoadHelper;
@@ -275,7 +285,7 @@ public class XMLSchedulingDataProcessorTest  {
 	void testRemoveJobClassNotFound() throws Exception {
         String DB_NAME = "XmlDeleteNonExistsJobTestDatabase";
         String SCHEDULER_NAME = "XmlDeleteNonExistsJobTestScheduler";
-        JdbcQuartzTestUtilities.createDatabase(DB_NAME);
+        JdbcQuartzTestUtilities.createDatabase(DB_NAME, DatabaseType.DERBY);
 
         JobStoreTX jobStore = new JobStoreTX();
         jobStore.setDataSource(DB_NAME);
@@ -318,7 +328,7 @@ public class XMLSchedulingDataProcessorTest  {
             assertThat(trigger2, Matchers.instanceOf(SimpleTrigger.class));
         } finally {
             scheduler.shutdown(false);
-            JdbcQuartzTestUtilities.destroyDatabase(DB_NAME);
+            JdbcQuartzTestUtilities.destroyDatabase(DB_NAME, DatabaseType.DERBY);
         }
     }
 
@@ -326,7 +336,7 @@ public class XMLSchedulingDataProcessorTest  {
     void testOverwriteJobClassNotFound() throws Exception {
         String DB_NAME = "XmlDeleteNonExistsJobTestDatabase";
         String SCHEDULER_NAME = "XmlDeleteNonExistsJobTestScheduler";
-        JdbcQuartzTestUtilities.createDatabase(DB_NAME);
+        JdbcQuartzTestUtilities.createDatabase(DB_NAME, DatabaseType.DERBY);
 
         JobStoreTX jobStore = new JobStoreTX();
         jobStore.setDataSource(DB_NAME);
@@ -364,7 +374,7 @@ public class XMLSchedulingDataProcessorTest  {
             assertThat(trigger2, Matchers.instanceOf(SimpleTrigger.class));
         } finally {
             scheduler.shutdown(false);
-            JdbcQuartzTestUtilities.destroyDatabase(DB_NAME);
+            JdbcQuartzTestUtilities.destroyDatabase(DB_NAME, DatabaseType.DERBY);
         }
     }
 

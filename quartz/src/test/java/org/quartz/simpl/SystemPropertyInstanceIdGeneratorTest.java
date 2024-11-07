@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.quartz.Scheduler;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities;
+import org.quartz.impl.jdbcjobstore.JdbcQuartzTestUtilities.DatabaseType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -94,7 +95,7 @@ class SystemPropertyInstanceIdGeneratorTest  {
   @Test
   void testGeneratorThroughSchedulerInstantiation() throws Exception {
     try {
-      JdbcQuartzTestUtilities.createDatabase("MeSchedulerDatabase");
+        JdbcQuartzTestUtilities.createDatabase("MeSchedulerDatabase", DatabaseType.DERBY);
     } catch (SQLException e) {
       throw new AssertionError(e);
     }

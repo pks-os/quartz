@@ -36,7 +36,7 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-public class QTZ283_IgnoreMisfirePolicyJdbcStore_Test extends QuartzDatabaseTestSupport {
+public class QTZ283_IgnoreMisfirePolicyJdbcStore_Test extends QuartzDerbyTestSupport {
 
   private static final long DURATION_OF_FIRST_SCHEDULING = 10L;
   private static final Logger LOG = LoggerFactory.getLogger(QTZ283_IgnoreMisfirePolicyJdbcStore_Test.class);

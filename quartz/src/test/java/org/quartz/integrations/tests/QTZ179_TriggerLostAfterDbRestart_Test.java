@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-public class QTZ179_TriggerLostAfterDbRestart_Test extends QuartzDatabaseTestSupport {
+public class QTZ179_TriggerLostAfterDbRestart_Test extends QuartzDerbyTestSupport {
 
     private static final long DURATION_OF_FIRST_SCHEDULING = 9L;
     private static final long DURATION_OF_NETWORK_FAILURE = 10L;
