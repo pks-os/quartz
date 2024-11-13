@@ -79,7 +79,7 @@ public class FileScanJob implements Job {
      */
     public void execute(JobExecutionContext context) throws JobExecutionException {
         JobDataMap mergedJobDataMap = context.getMergedJobDataMap();
-        SchedulerContext schedCtx = null;
+        SchedulerContext schedCtx;
         try {
             schedCtx = context.getScheduler().getContext();
         } catch (SchedulerException e) {

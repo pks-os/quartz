@@ -490,7 +490,7 @@ public class SimpleThreadPool implements ThreadPool {
 
         private final SimpleThreadPool tp;
 
-        private Runnable runnable = null;
+        private Runnable runnable;
         
         private boolean runOnce = false;
 

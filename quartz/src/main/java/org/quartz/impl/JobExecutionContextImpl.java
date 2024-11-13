@@ -58,7 +58,7 @@ public class JobExecutionContextImpl implements java.io.Serializable, JobExecuti
     
     private final Calendar calendar;
 
-    private boolean recovering = false;
+    private boolean recovering;
 
     private int numRefires = 0;
 

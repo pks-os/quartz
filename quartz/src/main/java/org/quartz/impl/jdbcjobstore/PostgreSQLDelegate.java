@@ -58,7 +58,7 @@ public class PostgreSQLDelegate extends StdJDBCDelegate {
     @Override           
     protected Object getObjectFromBlob(ResultSet rs, String colName)
         throws ClassNotFoundException, IOException, SQLException {
-        InputStream binaryInput = null;
+        InputStream binaryInput;
         byte[] bytes = rs.getBytes(colName);
         
         Object obj = null;
@@ -79,7 +79,7 @@ public class PostgreSQLDelegate extends StdJDBCDelegate {
     protected Object getJobDataFromBlob(ResultSet rs, String colName)
         throws ClassNotFoundException, IOException, SQLException {
         if (canUseProperties()) {
-            InputStream binaryInput = null;
+            InputStream binaryInput;
             byte[] bytes = rs.getBytes(colName);
             if(bytes == null || bytes.length == 0) {
                 return null;

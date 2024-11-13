@@ -355,7 +355,7 @@ public class QuartzSchedulerThread extends Thread {
                         // set triggers to 'executing'
                         List<TriggerFiredResult> bundles = new ArrayList<>();
 
-                        boolean goAhead = true;
+                        boolean goAhead;
                         synchronized(sigLock) {
                             goAhead = !halted.get();
                         }
@@ -397,7 +397,7 @@ public class QuartzSchedulerThread extends Thread {
                                 continue;
                             }
 
-                            JobRunShell shell = null;
+                            JobRunShell shell;
                             try {
                                 shell = qsRsrcs.getJobRunShellFactory().createJobRunShell(bundle);
                                 shell.initialize(qs);

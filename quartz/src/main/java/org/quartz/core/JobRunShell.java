@@ -69,9 +69,9 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
 
     protected QuartzScheduler qs = null;
     
-    protected TriggerFiredBundle firedTriggerBundle = null;
+    protected TriggerFiredBundle firedTriggerBundle;
 
-    protected Scheduler scheduler = null;
+    protected Scheduler scheduler;
 
     protected volatile boolean shutdownRequested = false;
 
@@ -121,7 +121,7 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
         throws SchedulerException {
         this.qs = sched;
 
-        Job job = null;
+        Job job;
         JobDetail jobDetail = firedTriggerBundle.getJobDetail();
 
         try {
@@ -195,7 +195,7 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
                 }
 
                 long startTime = System.currentTimeMillis();
-                long endTime = startTime;
+                long endTime;
 
                 // execute the job
                 try {
@@ -287,7 +287,7 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
 
     private boolean notifyListenersBeginning(JobExecutionContext jobExCtx) throws VetoedException {
 
-        boolean vetoed = false;
+        boolean vetoed;
 
         // notify all trigger listeners
         try {

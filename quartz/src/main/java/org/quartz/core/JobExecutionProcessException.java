@@ -11,17 +11,15 @@ import org.quartz.SchedulerListener;
 import org.quartz.TriggerListener;
 
 /**
- * <p>
- *     This exception is meybe thrown when an error occurs during execution:
- *     <ul>
- *         <li><code>Job execution</code></li>
- *         <li><code>{@link JobListener} methods</code></li>
- *         <li><code>{@link TriggerListener} methods</code></li>
- *     </ul>
- *     The exception ensures that the job execution context is transferred to the implementation of the error
- *     handling method of the scheduler listener <code>{@link SchedulerListener#schedulerError()}</code>, to try to fix
- *     the problem
- * </p>
+ * This exception is thrown when an error occurs during execution:
+ * <ul>
+ *     <li><code>Job execution</code></li>
+ *     <li><code>{@link JobListener} methods</code></li>
+ *     <li><code>{@link TriggerListener} methods</code></li>
+ * </ul>
+ * The exception ensures that the job execution context is transferred to the implementation of the error
+ * handling method of the scheduler listener <code>{@link org.quartz.SchedulerListener#schedulerError(String, SchedulerException)}</code>,
+ * to try to fix the problem
  */
 public class JobExecutionProcessException extends SchedulerException
 {

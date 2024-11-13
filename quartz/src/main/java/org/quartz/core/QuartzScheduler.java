@@ -360,7 +360,7 @@ public class QuartzScheduler implements RemotableQuartzScheduler {
             return;
         }
 
-        RemotableQuartzScheduler exportable = null;
+        RemotableQuartzScheduler exportable;
 
         if(resources.getRMIServerPort() > 0) {
             exportable = (RemotableQuartzScheduler) UnicastRemoteObject
@@ -370,7 +370,7 @@ public class QuartzScheduler implements RemotableQuartzScheduler {
                 .exportObject(this, 1099);
         }
 
-        Registry registry = null;
+        Registry registry;
 
         if (resources.getRMICreateRegistryStrategy().equals(
                 QuartzSchedulerResources.CREATE_REGISTRY_AS_NEEDED)) {
@@ -965,7 +965,7 @@ public class QuartzScheduler implements RemotableQuartzScheduler {
     public boolean deleteJobs(List<JobKey> jobKeys)  throws SchedulerException {
         validateState();
 
-        boolean result = false;
+        boolean result;
         
         result = resources.getJobStore().removeJobs(jobKeys);
         notifySchedulerThread(0L);
@@ -1030,7 +1030,7 @@ public class QuartzScheduler implements RemotableQuartzScheduler {
     public boolean unscheduleJobs(List<TriggerKey> triggerKeys) throws SchedulerException  {
         validateState();
 
-        boolean result = false;
+        boolean result;
         
         result = resources.getJobStore().removeTriggers(triggerKeys);
         notifySchedulerThread(0L);
@@ -2263,8 +2263,8 @@ J     *
 
         List<JobExecutionContext> jobs = getCurrentlyExecutingJobs();
         
-        JobDetail jobDetail = null;
-        Job job = null;
+        JobDetail jobDetail;
+        Job job;
         
         boolean interrupted = false;
         
@@ -2301,7 +2301,7 @@ J     *
     public boolean interrupt(String fireInstanceId) throws UnableToInterruptJobException {
         List<JobExecutionContext> jobs = getCurrentlyExecutingJobs();
         
-        Job job = null;
+        Job job;
         
         for(JobExecutionContext jec : jobs) {
             if (jec.getFireInstanceId().equals(fireInstanceId)) {

@@ -69,7 +69,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
 
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
         try {
             ps = conn.prepareStatement(rtp(INSERT_JOB_DETAIL));
@@ -114,7 +114,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
 
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
         try {
             ps = conn.prepareStatement(rtp(UPDATE_JOB_DETAIL));
@@ -146,7 +146,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
         
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
         try {
             ps = conn.prepareStatement(rtp(INSERT_TRIGGER));
@@ -207,7 +207,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
                 
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
 
         try {

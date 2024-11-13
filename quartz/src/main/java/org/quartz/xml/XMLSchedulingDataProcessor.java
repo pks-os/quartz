@@ -599,7 +599,7 @@ public class XMLSchedulingDataProcessor implements ErrorHandler {
 
         for (int i = 0; i < jobNodes.getLength(); i++) {
             Node jobDetailNode = jobNodes.item(i);
-            String t = null;
+            String t;
 
             String jobName = getTrimmedToNullString(xpath, "q:name", jobDetailNode);
             String jobGroup = getTrimmedToNullString(xpath, "q:group", jobDetailNode);

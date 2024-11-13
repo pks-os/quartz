@@ -528,7 +528,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
             throw initException;
         }
 
-        InputStream is = null;
+        InputStream is;
         Properties props = new Properties();
 
         is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
@@ -616,12 +616,12 @@ public class StdSchedulerFactory implements SchedulerFactory {
             throw initException;
         }
 
-        JobStore js = null;
-        ThreadPool tp = null;
+        JobStore js;
+        ThreadPool tp;
         QuartzScheduler qs = null;
         DBConnectionManager dbMgr = null;
         String instanceIdGeneratorClass = null;
-        Properties tProps = null;
+        Properties tProps;
         String userTXLocation = null;
         boolean wrapJobInTx = false;
         boolean autoId = false;
@@ -741,7 +741,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
 
 
         // Create class load helper
-        ClassLoadHelper loadHelper = null;
+        ClassLoadHelper loadHelper;
         try {
             loadHelper = (ClassLoadHelper) loadClass(classLoadHelperClass).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
@@ -762,7 +762,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
                 throw new SchedulerConfigException("No JMX Proxy Scheduler class provided");
             }
 
-            RemoteMBeanScheduler jmxScheduler = null;
+            RemoteMBeanScheduler jmxScheduler;
             try {
                 jmxScheduler = (RemoteMBeanScheduler) loadHelper.loadClass(jmxProxyClass).getDeclaredConstructor()
                         .newInstance();
@@ -942,7 +942,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
 
             // custom connectionProvider...
             if (cpClass != null) {
-                ConnectionProvider cp = null;
+                ConnectionProvider cp;
                 try {
                     cp = (ConnectionProvider) loadHelper.loadClass(cpClass).getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
@@ -1036,7 +1036,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
                     log.info("Using ConnectionProvider class '" + cpClass + "' for data source '" + dsName + "'");
 
                     try {
-                        ConnectionProvider cp = null;
+                        ConnectionProvider cp;
                         try {
                             Constructor constructor = loadHelper.loadClass(cpClass).getConstructor(Properties.class);
                             cp = (ConnectionProvider) constructor.newInstance(pp.getUnderlyingProperties());
@@ -1079,7 +1079,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
                                 + pluginNames[i] + "'");
                 throw initException;
             }
-            SchedulerPlugin plugin = null;
+            SchedulerPlugin plugin;
             try {
                 plugin = (SchedulerPlugin)
                         loadHelper.loadClass(plugInClass).getDeclaredConstructor().newInstance();
@@ -1119,7 +1119,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
                                 + jobListenerNames[i] + "'");
                 throw initException;
             }
-            JobListener listener = null;
+            JobListener listener;
             try {
                 listener = (JobListener)
                         loadHelper.loadClass(listenerClass).getDeclaredConstructor().newInstance();
@@ -1167,7 +1167,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
                                 + triggerListenerNames[i] + "'");
                 throw initException;
             }
-            TriggerListener listener = null;
+            TriggerListener listener;
             try {
                 listener = (TriggerListener)
                         loadHelper.loadClass(listenerClass).getDeclaredConstructor().newInstance();
@@ -1230,7 +1230,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
         try {
                 
     
-            JobRunShellFactory jrsf = null; // Create correct run-shell factory...
+            JobRunShellFactory jrsf; // Create correct run-shell factory...
     
             if (userTXLocation != null) {
                 UserTransactionHelper.setUserTxLocation(userTXLocation);

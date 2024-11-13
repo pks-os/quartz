@@ -162,7 +162,7 @@ public class JobStoreCMT extends JobStoreSupport {
     @Override
     protected Connection getNonManagedTXConnection()
         throws JobPersistenceException {
-        Connection conn = null;
+        Connection conn;
         try {
             conn = DBConnectionManager.getInstance().getConnection(
                     getNonManagedTXDataSource());

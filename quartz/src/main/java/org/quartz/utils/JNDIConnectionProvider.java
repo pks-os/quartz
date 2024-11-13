@@ -62,7 +62,7 @@ public class JNDIConnectionProvider implements ConnectionProvider {
 
     private Object datasource;
 
-    private boolean alwaysLookup = false;
+    private boolean alwaysLookup;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 

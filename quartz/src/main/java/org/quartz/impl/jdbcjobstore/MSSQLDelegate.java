@@ -72,7 +72,7 @@ public class MSSQLDelegate extends StdJDBCDelegate {
             return null;
         }
 
-        Object obj = null;
+        Object obj;
 
         try (ObjectInputStream in = new ObjectInputStream(binaryInput)) {
             obj = in.readObject();

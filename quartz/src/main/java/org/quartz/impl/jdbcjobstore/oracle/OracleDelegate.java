@@ -174,7 +174,7 @@ public class OracleDelegate extends StdJDBCDelegate {
 
             int res = 0;
 
-            Blob dbBlob = null;
+            Blob dbBlob;
             if (rs.next()) {
                 dbBlob = writeDataToBlob(rs, 1, data);
             } else {
@@ -275,7 +275,7 @@ public class OracleDelegate extends StdJDBCDelegate {
         PreparedStatement ps = null;
         ResultSet rs = null;
         
-        int insertResult = 0;
+        int insertResult;
 
         try {
             ps = conn.prepareStatement(rtp(INSERT_TRIGGER));
@@ -330,7 +330,7 @@ public class OracleDelegate extends StdJDBCDelegate {
         
                 rs = ps.executeQuery();
         
-                Blob dbBlob = null;
+                Blob dbBlob;
                 if (rs.next()) {
                     dbBlob = writeDataToBlob(rs, 1, data);
                 } else {
@@ -376,7 +376,7 @@ public class OracleDelegate extends StdJDBCDelegate {
         PreparedStatement ps2 = null;
         ResultSet rs = null;
         
-        int insertResult = 0;
+        int insertResult;
 
 
         try {

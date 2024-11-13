@@ -682,7 +682,7 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
           return null;
                 
         // d. Calculate and save fireTimeEndDate variable for later use
-        Date fireTimeEndDate = null;
+        Date fireTimeEndDate;
         if (endTimeOfDay == null)
           fireTimeEndDate = new TimeOfDay(23, 59, 59).getTimeOfDayForDate(fireTime);
         else

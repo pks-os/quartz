@@ -171,7 +171,7 @@ public class TriggerSupport {
     }
     
     public static OperableTrigger newTrigger(CompositeData cData) throws ParseException {
-        OperableTrigger result = null;
+        OperableTrigger result;
         if(cData.containsKey("cronExpression")) {
             result = CronTriggerSupport.newTrigger(cData);
         } else {
@@ -181,7 +181,7 @@ public class TriggerSupport {
     }
     
     public static OperableTrigger newTrigger(Map<String, Object> attrMap) throws ParseException {
-        OperableTrigger result = null;
+        OperableTrigger result;
         if(attrMap.containsKey("cronExpression")) {
             result = CronTriggerSupport.newTrigger(attrMap);
         } else {

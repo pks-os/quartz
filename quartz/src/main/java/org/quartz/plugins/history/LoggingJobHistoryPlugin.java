@@ -477,7 +477,7 @@ public class LoggingJobHistoryPlugin implements SchedulerPlugin, JobListener {
 
         Trigger trigger = context.getTrigger();
         
-        Object[] args = null;
+        Object[] args;
         
         if (jobException != null) {
             if (!getLog().isWarnEnabled()) {
